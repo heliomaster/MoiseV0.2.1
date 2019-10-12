@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="mes_logos">
+        <file>logo_tres_petit.jpg</file>
+    </qresource>
+</RCC>

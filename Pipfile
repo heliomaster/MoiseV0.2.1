@@ -1,0 +1,18 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+
+[packages]
+pyqt5 = "*"
+pathlib2 = "*"
+qdarkstyle = "*"
+pytest = "*"
+pytest-qt = "*"
+pyqt5-stubs = "*"
+docxtpl = "==0.5.17"
+
+[requires]
+python_version = "3.7"

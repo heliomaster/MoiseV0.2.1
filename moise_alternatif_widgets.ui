@@ -1,0 +1,445 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+    <class>MainWindow</class>
+    <widget class="QMainWindow" name="MainWindow">
+        <property name="geometry">
+            <rect>
+                <x>0</x>
+                <y>0</y>
+                <width>950</width>
+                <height>480</height>
+            </rect>
+        </property>
+        <property name="windowTitle">
+            <string>MainWindow</string>
+        </property>
+        <property name="toolTip">
+            <string extracomment="ajouter une entrée"/>
+        </property>
+        <property name="styleSheet">
+            <string notr="true"/>
+        </property>
+        <widget class="QWidget" name="centralwidget">
+            <layout class="QGridLayout" name="gridLayout_5">
+                <item row="0" column="0">
+                    <widget class="QTabWidget" name="tabWidget">
+                        <property name="currentIndex">
+                            <number>1</number>
+                        </property>
+                        <widget class="QWidget" name="tab">
+                            <attribute name="title">
+                                <string>LIMITES</string>
+                            </attribute>
+                            <layout class="QGridLayout" name="gridLayout_2">
+                                <item row="0" column="0">
+                                    <widget class="QLabel" name="Logo_Label">
+                                        <property name="sizePolicy">
+                                            <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+                                                <horstretch>0</horstretch>
+                                                <verstretch>0</verstretch>
+                                            </sizepolicy>
+                                        </property>
+                                        <property name="minimumSize">
+                                            <size>
+                                                <width>200</width>
+                                                <height>150</height>
+                                            </size>
+                                        </property>
+                                        <property name="text">
+                                            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/mes_logos/logo_tres_petit.jpg&quot;width=&quot;180&quot;
+                                                height=&quot;100&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;
+                                            </string>
+                                        </property>
+                                    </widget>
+                                </item>
+                                <item row="0" column="1">
+                                    <widget class="QLabel" name="label">
+                                        <property name="font">
+                                            <font>
+                                                <pointsize>18</pointsize>
+                                                <weight>75</weight>
+                                                <bold>true</bold>
+                                            </font>
+                                        </property>
+                                        <property name="text">
+                                            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span
+                                                style=&quot; color:#800002;&quot;&gt;MOISE : Moyen Operationnel
+                                                d'Information et de
+                                                Soutien des Equipages &lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;
+                                            </string>
+                                        </property>
+                                    </widget>
+                                </item>
+                                <item row="1" column="0" colspan="2">
+                                    <widget class="QTableView" name="tableView">
+                                        <property name="font">
+                                            <font>
+                                                <weight>75</weight>
+                                                <bold>true</bold>
+                                            </font>
+                                        </property>
+                                    </widget>
+                                </item>
+                                <item row="2" column="0" colspan="2">
+                                    <layout class="QHBoxLayout" name="horizontalLayout">
+                                        <item>
+                                            <widget class="QPushButton" name="pushButton_add">
+                                                <property name="text">
+                                                    <string>INSERER</string>
+                                                </property>
+                                            </widget>
+                                        </item>
+                                        <item>
+                                            <widget class="QPushButton" name="pushButton_update">
+                                                <property name="text">
+                                                    <string>MAJ JOURS</string>
+                                                </property>
+                                            </widget>
+                                        </item>
+                                        <item>
+                                            <widget class="QPushButton" name="pushButton_remove">
+                                                <property name="sizePolicy">
+                                                    <sizepolicy hsizetype="Minimum" vsizetype="Maximum">
+                                                        <horstretch>0</horstretch>
+                                                        <verstretch>0</verstretch>
+                                                    </sizepolicy>
+                                                </property>
+                                                <property name="text">
+                                                    <string>SUPPRIMER</string>
+                                                </property>
+                                            </widget>
+                                        </item>
+                                        <item>
+                                            <widget class="QPushButton" name="pushButton_send_mail">
+                                                <property name="text">
+                                                    <string>ENVOYER</string>
+                                                </property>
+                                            </widget>
+                                        </item>
+                                    </layout>
+                                </item>
+                            </layout>
+                        </widget>
+                        <widget class="QWidget" name="tab_2">
+                            <attribute name="title">
+                                <string>LOG</string>
+                            </attribute>
+                            <layout class="QGridLayout" name="gridLayout_3">
+                                <item row="0" column="0" rowspan="3">
+                                    <widget class="QGroupBox" name="groupBox_2">
+                                        <property name="sizePolicy">
+                                            <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+                                                <horstretch>0</horstretch>
+                                                <verstretch>0</verstretch>
+                                            </sizepolicy>
+                                        </property>
+                                        <property name="title">
+                                            <string>INSERTION</string>
+                                        </property>
+                                        <property name="alignment">
+                                            <set>Qt::AlignCenter</set>
+                                        </property>
+                                        <layout class="QGridLayout" name="gridLayout_4">
+                                            <property name="sizeConstraint">
+                                                <enum>QLayout::SetFixedSize</enum>
+                                            </property>
+                                            <item row="5" column="0">
+                                                <widget class="QGroupBox" name="groupBox_3">
+                                                    <property name="title">
+                                                        <string>MISSIONS</string>
+                                                    </property>
+                                                    <property name="alignment">
+                                                        <set>Qt::AlignCenter</set>
+                                                    </property>
+                                                    <layout class="QGridLayout" name="gridLayout">
+                                                        <item row="0" column="0">
+                                                            <widget class="QComboBox" name="comboBox_type_msn"/>
+                                                        </item>
+                                                        <item row="1" column="0">
+                                                            <widget class="QComboBox" name="comboBox_ss_type_msn"/>
+                                                        </item>
+                                                    </layout>
+                                                </widget>
+                                            </item>
+                                            <item row="6" column="0">
+                                                <widget class="QLineEdit" name="lineEdit_commentaires">
+                                                    <property name="text">
+                                                        <string/>
+                                                    </property>
+                                                    <property name="alignment">
+                                                        <set>Qt::AlignCenter</set>
+                                                    </property>
+                                                    <property name="placeholderText">
+                                                        <string>Commentaire</string>
+                                                    </property>
+                                                </widget>
+                                            </item>
+                                            <item row="1" column="0">
+                                                <widget class="QComboBox" name="comboBox_pilot2"/>
+                                            </item>
+                                            <item row="9" column="0">
+                                                <widget class="QPushButton" name="pushButton_snapshot_template">
+                                                    <property name="text">
+                                                        <string>SNAPSHOT TEMPLATE</string>
+                                                    </property>
+                                                </widget>
+                                            </item>
+                                            <item row="12" column="0">
+                                                <widget class="QPushButton" name="pushButton_aircraft">
+                                                    <property name="text">
+                                                        <string>AIRCRAFT</string>
+                                                    </property>
+                                                </widget>
+                                            </item>
+                                            <item row="10" column="0">
+                                                <widget class="QPushButton" name="pushButton_termplate_create">
+                                                    <property name="text">
+                                                        <string>CREER TEMPLATE</string>
+                                                    </property>
+                                                </widget>
+                                            </item>
+                                            <item row="3" column="0">
+                                                <widget class="QDateTimeEdit" name="dateTimeEdit">
+                                                    <property name="displayFormat">
+                                                        <string>yyyy/MM/dd HH:mm</string>
+                                                    </property>
+                                                    <property name="calendarPopup">
+                                                        <bool>true</bool>
+                                                    </property>
+                                                    <property name="timeSpec">
+                                                        <enum>Qt::UTC</enum>
+                                                    </property>
+                                                </widget>
+                                            </item>
+                                            <item row="11" column="0">
+                                                <widget class="QPushButton" name="pushButton_add_pilot">
+                                                    <property name="whatsThis">
+                                                        <string extracomment="Inserer dans la Base de Donnéee un Nouveua Pilote"/>
+                                                    </property>
+                                                    <property name="text">
+                                                        <string>PILOT</string>
+                                                    </property>
+                                                </widget>
+                                            </item>
+                                            <item row="4" column="0">
+                                                <widget class="QDateTimeEdit" name="dateTimeEdit_2">
+                                                    <property name="displayFormat">
+                                                        <string>yyyy/MM/dd HH:mm</string>
+                                                    </property>
+                                                    <property name="calendarPopup">
+                                                        <bool>true</bool>
+                                                    </property>
+                                                    <property name="timeSpec">
+                                                        <enum>Qt::UTC</enum>
+                                                    </property>
+                                                </widget>
+                                            </item>
+                                            <item row="0" column="0">
+                                                <widget class="QComboBox" name="comboBox_pilot1"/>
+                                            </item>
+                                            <item row="2" column="0">
+                                                <widget class="QComboBox" name="comboBox_aircraft"/>
+                                            </item>
+                                            <item row="13" column="0">
+                                                <widget class="QPushButton" name="rmv_btn">
+                                                    <property name="text">
+                                                        <string>REMOVE</string>
+                                                    </property>
+                                                </widget>
+                                            </item>
+                                            <item row="7" column="0">
+                                                <widget class="QPushButton" name="pushButton_insert">
+                                                    <property name="text">
+                                                        <string>INSERT</string>
+                                                    </property>
+                                                    <property name="autoDefault">
+                                                        <bool>false</bool>
+                                                    </property>
+                                                    <property name="default">
+                                                        <bool>true</bool>
+                                                    </property>
+                                                </widget>
+                                            </item>
+                                        </layout>
+                                    </widget>
+                                </item>
+                                <item row="0" column="1" colspan="3">
+                                    <widget class="QGroupBox" name="groupBox">
+                                        <property name="title">
+                                            <string>FILTRE</string>
+                                        </property>
+                                        <layout class="QHBoxLayout" name="horizontalLayout_2">
+                                            <item>
+                                                <widget class="QLineEdit" name="lineEdit_search">
+                                                    <property name="placeholderText">
+                                                        <string>recherche pilote/appareil</string>
+                                                    </property>
+                                                    <property name="clearButtonEnabled">
+                                                        <bool>true</bool>
+                                                    </property>
+                                                </widget>
+                                            </item>
+                                            <item>
+                                                <widget class="QCheckBox" name="checkBox_pcb">
+                                                    <property name="text">
+                                                        <string>PCB</string>
+                                                    </property>
+                                                </widget>
+                                            </item>
+                                            <item>
+                                                <widget class="QCheckBox" name="checkBox_pcm">
+                                                    <property name="text">
+                                                        <string>PCM</string>
+                                                    </property>
+                                                </widget>
+                                            </item>
+                                            <item>
+                                                <widget class="QDateEdit" name="dateEdit">
+                                                    <property name="sizePolicy">
+                                                        <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+                                                            <horstretch>0</horstretch>
+                                                            <verstretch>0</verstretch>
+                                                        </sizepolicy>
+                                                    </property>
+                                                    <property name="font">
+                                                        <font>
+                                                            <pointsize>8</pointsize>
+                                                        </font>
+                                                    </property>
+                                                    <property name="alignment">
+                                                        <set>Qt::AlignCenter</set>
+                                                    </property>
+                                                    <property name="displayFormat">
+                                                        <string>yyyy/MM/dd</string>
+                                                    </property>
+                                                </widget>
+                                            </item>
+                                            <item>
+                                                <widget class="QDateEdit" name="dateEdit_2">
+                                                    <property name="sizePolicy">
+                                                        <sizepolicy hsizetype="Maximum" vsizetype="Maximum">
+                                                            <horstretch>0</horstretch>
+                                                            <verstretch>0</verstretch>
+                                                        </sizepolicy>
+                                                    </property>
+                                                    <property name="font">
+                                                        <font>
+                                                            <pointsize>8</pointsize>
+                                                        </font>
+                                                    </property>
+                                                    <property name="displayFormat">
+                                                        <string>yyyy/MM/dd</string>
+                                                    </property>
+                                                </widget>
+                                            </item>
+                                            <item>
+                                                <widget class="QLineEdit" name="lineEdit_search_mission">
+                                                    <property name="placeholderText">
+                                                        <string>recherche mission</string>
+                                                    </property>
+                                                    <property name="clearButtonEnabled">
+                                                        <bool>true</bool>
+                                                    </property>
+                                                </widget>
+                                            </item>
+                                        </layout>
+                                    </widget>
+                                </item>
+                                <item row="1" column="1" colspan="3">
+                                    <widget class="QTableView" name="tableView_2">
+                                        <property name="font">
+                                            <font>
+                                                <pointsize>8</pointsize>
+                                            </font>
+                                        </property>
+                                    </widget>
+                                </item>
+                                <item row="2" column="1">
+                                    <widget class="QLabel" name="label_2">
+                                        <property name="toolTip">
+                                            <string>update me</string>
+                                        </property>
+                                        <property name="styleSheet">
+                                            <string notr="true">border-color: rgb(179, 179, 179); border-top-color:
+                                                rgb(252, 2, 128);
+                                                font: 75 10pt &quot;MS Shell Dlg 2&quot;;
+                                            </string>
+                                        </property>
+                                        <property name="text">
+                                            <string>MAJ VIA UPDATE</string>
+                                        </property>
+                                        <property name="alignment">
+                                            <set>Qt::AlignCenter</set>
+                                        </property>
+                                    </widget>
+                                </item>
+                                <item row="2" column="2">
+                                    <widget class="QComboBox" name="comboBox_price_aircraft"/>
+                                </item>
+                                <item row="2" column="3">
+                                    <widget class="QLabel" name="label_price">
+                                        <property name="font">
+                                            <font>
+                                                <pointsize>10</pointsize>
+                                            </font>
+                                        </property>
+                                        <property name="frameShadow">
+                                            <enum>QFrame::Raised</enum>
+                                        </property>
+                                        <property name="text">
+                                            <string>PRIX</string>
+                                        </property>
+                                        <property name="alignment">
+                                            <set>Qt::AlignCenter</set>
+                                        </property>
+                                    </widget>
+                                </item>
+                            </layout>
+                        </widget>
+                    </widget>
+                </item>
+            </layout>
+        </widget>
+        <widget class="QMenuBar" name="menubar">
+            <property name="geometry">
+                <rect>
+                    <x>0</x>
+                    <y>0</y>
+                    <width>950</width>
+                    <height>18</height>
+                </rect>
+            </property>
+            <widget class="QMenu" name="menuMENU">
+                <property name="title">
+                    <string>MENU</string>
+                </property>
+                <addaction name="action_save_file"/>
+            </widget>
+            <addaction name="menuMENU"/>
+        </widget>
+        <widget class="QStatusBar" name="statusbar"/>
+        <action name="action_save_file">
+            <property name="text">
+                <string>SAUVEGARDER BASE DE DONEE</string>
+            </property>
+        </action>
+    </widget>
+    <tabstops>
+        <tabstop>comboBox_pilot1</tabstop>
+        <tabstop>comboBox_pilot2</tabstop>
+        <tabstop>comboBox_aircraft</tabstop>
+        <tabstop>dateTimeEdit</tabstop>
+        <tabstop>dateTimeEdit_2</tabstop>
+        <tabstop>rmv_btn</tabstop>
+        <tabstop>dateEdit_2</tabstop>
+        <tabstop>tabWidget</tabstop>
+        <tabstop>tableView</tabstop>
+        <tabstop>pushButton_remove</tabstop>
+        <tabstop>pushButton_send_mail</tabstop>
+        <tabstop>pushButton_add</tabstop>
+    </tabstops>
+    <resources>
+        <include location="images.qrc"/>
+    </resources>
+    <connections/>
+</ui>

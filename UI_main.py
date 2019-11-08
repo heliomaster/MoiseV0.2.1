@@ -17,7 +17,7 @@ from email.mime.text import MIMEText
 
 from PyQt5.QtCore import Qt, QObject, QDate, pyqtSlot, pyqtSignal, QThreadPool, QRunnable, \
     QDateTime, QRegExp, QSortFilterProxyModel, QSize, QModelIndex
-from PyQt5.QtGui import QBrush, QColor, QTextDocument,QPixmap
+from PyQt5.QtGui import QBrush, QColor, QTextDocument,QPixmap,QValidator
 from PyQt5.QtWidgets import QMainWindow, QStyledItemDelegate, QApplication, QDateEdit, QMessageBox, \
     QDateTimeEdit, QHeaderView, QSpinBox, QFileDialog, QDialog
 from docxtpl import DocxTemplate
@@ -1171,6 +1171,9 @@ class Dialogu2(QDialog, TabView2.Ui_insertDialogu):
         super(Dialogu2, self).__init__(parent)
         self.setupUi(self)
         self.buttonBox.clicked.connect(self.setdata_aircraft)
+        self.validator = Validator(self)
+        self.lineEdit.setValidator(self.validator)
+        self.lineEdit_2.setValidator(self.validator)
 
     def setdata_aircraft(self):
         query = QSqlQuery()
@@ -1191,6 +1194,10 @@ class RankDialogue(QDialog, rank_dialogue.Ui_Dialog):
         self.setupUi(self)
         self.buttonBox.accepted.connect(self.insert_pilot_in_db)
         self.buttonBox.rejected.connect(self.reject)
+        self.validator = Validator(self)
+        self.lineEdit_prenom.setValidator(self.validator)
+        self.lineEdit_nom.setValidator(self.validator)
+        self.lineEdit_nia.setValidator(self.validator)
 
         ranks = ["AVIATEUR", "1ere CLASSE", "CAPORAL", "CAPORAL CHEF",
                  "SERGENT", "SERGENT-CHEF",
@@ -1211,6 +1218,10 @@ class RankDialogue(QDialog, rank_dialogue.Ui_Dialog):
         msg.setText("Pilote inseré dans la base de données")
         msg.exec_()
 
+class Validator(QValidator):
+    """sets lineEdits to upperCase only"""
+    def validate(self,string,pos):
+        return QValidator.Acceptable,string.upper(),pos
 
 
 

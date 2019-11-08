@@ -40,7 +40,7 @@ class MainWindow(QMainWindow, moise_alternatif_widgets.Ui_MainWindow):
     def __init__(self, parent=None):
         super(MainWindow, self).__init__(parent)
         self.setupUi(self)
-
+        #
         # sshFile = "Style_Gray.qss"
         # with open(sshFile, "r") as fh:
         #     self.setStyleSheet(fh.read())

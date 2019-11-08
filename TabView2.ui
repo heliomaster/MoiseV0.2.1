@@ -37,6 +37,9 @@
      </item>
      <item>
       <widget class="QLineEdit" name="lineEdit">
+       <property name="inputMethodHints">
+        <set>Qt::ImhUppercaseOnly</set>
+       </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
        </property>
@@ -60,6 +63,9 @@
      </item>
      <item>
       <widget class="QLineEdit" name="lineEdit_2">
+       <property name="inputMethodHints">
+        <set>Qt::ImhUppercaseOnly</set>
+       </property>
        <property name="text">
         <string/>
        </property>

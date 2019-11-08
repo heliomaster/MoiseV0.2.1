@@ -12,8 +12,15 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName("MainWindow")
         MainWindow.resize(950, 480)
+        font = QtGui.QFont()
+        font.setFamily("MS Shell Dlg 2")
+        font.setPointSize(10)
+        font.setBold(False)
+        font.setItalic(False)
+        font.setWeight(50)
+        MainWindow.setFont(font)
         MainWindow.setToolTip("")
-        MainWindow.setStyleSheet("")
+        MainWindow.setStyleSheet("font: 10pt \"MS Shell Dlg 2\";")
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.gridLayout_5 = QtWidgets.QGridLayout(self.centralwidget)
@@ -35,16 +42,21 @@ class Ui_MainWindow(object):
         self.gridLayout_2.addWidget(self.Logo_Label, 0, 0, 1, 1)
         self.label = QtWidgets.QLabel(self.tab)
         font = QtGui.QFont()
-        font.setPointSize(18)
-        font.setBold(True)
-        font.setWeight(75)
+        font.setFamily("MS Shell Dlg 2")
+        font.setPointSize(10)
+        font.setBold(False)
+        font.setItalic(False)
+        font.setWeight(50)
         self.label.setFont(font)
         self.label.setObjectName("label")
         self.gridLayout_2.addWidget(self.label, 0, 1, 1, 1)
         self.tableView = QtWidgets.QTableView(self.tab)
         font = QtGui.QFont()
-        font.setBold(True)
-        font.setWeight(75)
+        font.setFamily("MS Shell Dlg 2")
+        font.setPointSize(10)
+        font.setBold(False)
+        font.setItalic(False)
+        font.setWeight(50)
         self.tableView.setFont(font)
         self.tableView.setObjectName("tableView")
         self.gridLayout_2.addWidget(self.tableView, 1, 0, 1, 2)
@@ -163,8 +175,13 @@ class Ui_MainWindow(object):
         sizePolicy.setHeightForWidth(self.dateEdit.sizePolicy().hasHeightForWidth())
         self.dateEdit.setSizePolicy(sizePolicy)
         font = QtGui.QFont()
-        font.setPointSize(8)
+        font.setFamily("MS Shell Dlg 2")
+        font.setPointSize(10)
+        font.setBold(False)
+        font.setItalic(False)
+        font.setWeight(50)
         self.dateEdit.setFont(font)
+        self.dateEdit.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.dateEdit.setAlignment(QtCore.Qt.AlignCenter)
         self.dateEdit.setObjectName("dateEdit")
         self.horizontalLayout_2.addWidget(self.dateEdit)
@@ -175,7 +192,11 @@ class Ui_MainWindow(object):
         sizePolicy.setHeightForWidth(self.dateEdit_2.sizePolicy().hasHeightForWidth())
         self.dateEdit_2.setSizePolicy(sizePolicy)
         font = QtGui.QFont()
-        font.setPointSize(8)
+        font.setFamily("MS Shell Dlg 2")
+        font.setPointSize(10)
+        font.setBold(False)
+        font.setItalic(False)
+        font.setWeight(50)
         self.dateEdit_2.setFont(font)
         self.dateEdit_2.setObjectName("dateEdit_2")
         self.horizontalLayout_2.addWidget(self.dateEdit_2)
@@ -186,15 +207,19 @@ class Ui_MainWindow(object):
         self.gridLayout_3.addWidget(self.groupBox, 0, 1, 1, 3)
         self.tableView_2 = QtWidgets.QTableView(self.tab_2)
         font = QtGui.QFont()
-        font.setPointSize(8)
+        font.setFamily("MS Shell Dlg 2")
+        font.setPointSize(10)
+        font.setBold(False)
+        font.setItalic(False)
+        font.setWeight(50)
         self.tableView_2.setFont(font)
         self.tableView_2.setObjectName("tableView_2")
         self.gridLayout_3.addWidget(self.tableView_2, 1, 1, 1, 3)
         self.label_2 = QtWidgets.QLabel(self.tab_2)
         self.label_2.setStyleSheet("border-color: rgb(179, 179, 179); border-top-color:\n"
-                                   "                                                rgb(252, 2, 128);\n"
-                                   "                                                font: 75 10pt \"MS Shell Dlg 2\";\n"
-                                   "                                            ")
+"                                                rgb(252, 2, 128);\n"
+"                                                font: 75 10pt \"MS Shell Dlg 2\";\n"
+"                                            ")
         self.label_2.setAlignment(QtCore.Qt.AlignCenter)
         self.label_2.setObjectName("label_2")
         self.gridLayout_3.addWidget(self.label_2, 2, 1, 1, 1)
@@ -213,7 +238,7 @@ class Ui_MainWindow(object):
         self.gridLayout_5.addWidget(self.tabWidget, 0, 0, 1, 1)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 950, 18))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 950, 19))
         self.menubar.setObjectName("menubar")
         self.menuMENU = QtWidgets.QMenu(self.menubar)
         self.menuMENU.setObjectName("menuMENU")
@@ -244,15 +269,14 @@ class Ui_MainWindow(object):
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
-        self.Logo_Label.setText(
-            _translate("MainWindow", "<html><head/><body><p><img src=\":/mes_logos/logo_tres_petit.jpg\"width=\"180\"\n"
-                                     "                                                height=\"100\"/></p></body></html>\n"
-                                     "                                            "))
+        self.Logo_Label.setText(_translate("MainWindow", "<html><head/><body><p><img src=\":/mes_logos/logo_tres_petit.jpg\"width=\"180\"\n"
+"                                                height=\"100\"/></p></body></html>\n"
+"                                            "))
         self.label.setText(_translate("MainWindow", "<html><head/><body><p align=\"center\"><span\n"
-                                                    "                                                style=\" color:#800002;\">MOISE : Moyen Operationnel\n"
-                                                    "                                                d\'Information et de\n"
-                                                    "                                                Soutien des Equipages </span></p></body></html>\n"
-                                                    "                                            "))
+"                                                style=\" color:#800002;\">MOISE : Moyen Operationnel\n"
+"                                                d\'Information et de\n"
+"                                                Soutien des Equipages </span></p></body></html>\n"
+"                                            "))
         self.pushButton_add.setText(_translate("MainWindow", "INSERER"))
         self.pushButton_update.setText(_translate("MainWindow", "MAJ JOURS"))
         self.pushButton_remove.setText(_translate("MainWindow", "SUPPRIMER"))
@@ -263,7 +287,7 @@ class Ui_MainWindow(object):
         self.lineEdit_commentaires.setPlaceholderText(_translate("MainWindow", "Commentaire"))
         self.pushButton_snapshot_template.setText(_translate("MainWindow", "SNAPSHOT TEMPLATE"))
         self.pushButton_aircraft.setText(_translate("MainWindow", "AIRCRAFT"))
-        self.pushButton_termplate_create.setText(_translate("MainWindow", "CREER TEMPLATE "))
+        self.pushButton_termplate_create.setText(_translate("MainWindow", "CREER TEMPLATE"))
         self.dateTimeEdit.setDisplayFormat(_translate("MainWindow", "yyyy/MM/dd HH:mm"))
         self.pushButton_add_pilot.setText(_translate("MainWindow", "PILOT"))
         self.dateTimeEdit_2.setDisplayFormat(_translate("MainWindow", "yyyy/MM/dd HH:mm"))
@@ -283,3 +307,4 @@ class Ui_MainWindow(object):
         self.menuMENU.setTitle(_translate("MainWindow", "MENU"))
         self.action_save_file.setText(_translate("MainWindow", "SAUVEGARDER BASE DE DONEE"))
 
+import images_rc

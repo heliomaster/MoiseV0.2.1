@@ -17,9 +17,12 @@ from email.mime.text import MIMEText
 
 from PyQt5.QtCore import Qt, QObject, QDate, pyqtSlot, pyqtSignal, QThreadPool, QRunnable, \
     QDateTime, QRegExp, QSortFilterProxyModel, QSize, QModelIndex
+
 from PyQt5.QtGui import QBrush, QColor, QTextDocument,QPixmap,QValidator
+
 from PyQt5.QtWidgets import QMainWindow, QStyledItemDelegate, QApplication, QDateEdit, QMessageBox, \
-    QDateTimeEdit, QHeaderView, QSpinBox, QFileDialog, QDialog
+    QDateTimeEdit, QHeaderView, QSpinBox, QFileDialog, QDialog,QSplashScreen,QProgressBar
+
 from docxtpl import DocxTemplate
 
 import TabView2
@@ -1299,9 +1302,33 @@ class Worker(QRunnable):
 if __name__ == '__main__':
     try:
         app = QApplication(sys.argv)
+        # create and display splash screen
+
+        splash_pix = QPixmap('Logo_armee.png')
+
+        splash = QSplashScreen(splash_pix, Qt.WindowStaysOnTopHint)
+        # splash.setWindowFlags(Qt.WindowStaysOnTopHint | Qt.FramelessWindowHint)
+        splash.setEnabled(False)
+        # add progress bar
+        progressBar = QProgressBar(splash)
+        progressBar.setMaximum(10)
+        progressBar.setGeometry(0, splash_pix.height() -65, splash_pix.width(), 20)
+
+        splash.show()
+        splash.showMessage("<h1><font color='black'>----Bienvenue dans Moise!----</font></h1>",
+                           Qt.AlignTop | Qt.AlignCenter, Qt.black)
+
+        for i in range(1, 11):
+            progressBar.setValue(i)
+            t = time.time()
+            while time.time() < t + 0.1:
+                app.processEvents()
+        # # simulating
+        time.sleep(1)
         form = MainWindow()
         # app.setStyleSheet(qdarkstyle.load_stylesheet_pyqt5())
         form.show()
+        splash.finish(form)
         app.exec_()
         sys.exit(0)
     except NameError:

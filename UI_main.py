@@ -43,10 +43,10 @@ class MainWindow(QMainWindow, moise_alternatif_widgets.Ui_MainWindow):
     def __init__(self, parent=None):
         super(MainWindow, self).__init__(parent)
         self.setupUi(self)
-        #
-        # sshFile = "Style_Gray.qss"
-        # with open(sshFile, "r") as fh:
-        #     self.setStyleSheet(fh.read())
+
+        sshFile = "dark.stylesheet"
+        with open(sshFile, "r") as fh:
+            self.setStyleSheet(fh.read())
 
         imgpth = pathlib.Path.cwd()/'Armee_Air.jpg'
         print(imgpth)
@@ -211,6 +211,20 @@ class MainWindow(QMainWindow, moise_alternatif_widgets.Ui_MainWindow):
         self.dateEdit_2.dateChanged.connect(self.calculate_aircraft_price)
         self.comboBox_price_aircraft.activated.connect(self.calculate_aircraft_price)
 
+        ############################  MEIPASS  ##################################################
+    def resource_path(relative_path):
+        """ Get absolute path to resource, works for dev and for PyInstaller """
+        try:
+            # PyInstaller creates a temp folder and stores path in _MEIPASS
+            base_path = sys._MEIPASS
+        except Exception:
+            base_path = os.path.abspath(".")
+
+        return os.path.join(base_path, relative_path)
+
+    Logo = resource_path("Armee_Air.jpg")
+
+    #################################"   END MEIPASS ########################################
     def btn_clicked_enable(self):
         self.pushButton_termplate_create.setDisabled(False)
 

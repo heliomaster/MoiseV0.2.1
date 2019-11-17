@@ -16,7 +16,7 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
 from PyQt5.QtCore import Qt, QObject, QDate, pyqtSlot, pyqtSignal, QThreadPool, QRunnable, \
-    QDateTime, QRegExp, QSortFilterProxyModel, QSize, QModelIndex
+    QDateTime, QRegExp, QSortFilterProxyModel, QSize, QModelIndex,QPoint, QSettings
 
 from PyQt5.QtGui import QBrush, QColor, QTextDocument,QPixmap,QValidator
 
@@ -211,6 +211,18 @@ class MainWindow(QMainWindow, moise_alternatif_widgets.Ui_MainWindow):
         self.dateEdit_2.dateChanged.connect(self.calculate_aircraft_price)
         self.comboBox_price_aircraft.activated.connect(self.calculate_aircraft_price)
 
+        #  Qsettings set up
+
+        self.settings = QSettings('SARAA', 'MainWindow')
+        #
+        self.resize((self.settings.value("size", QSize(270, 225))))
+        self.move(self.settings.value("pos", QPoint(50, 50)))
+
+    def closeEvent(self, e):
+        self.settings.setValue("size", self.size())
+        self.settings.setValue("pos", self.pos())
+
+        e.accept()
         ############################  MEIPASS  ##################################################
     def resource_path(relative_path):
         """ Get absolute path to resource, works for dev and for PyInstaller """

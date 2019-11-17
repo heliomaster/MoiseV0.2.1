@@ -12,11 +12,7 @@
   </property>
   <property name="font">
    <font>
-    <family>MS Shell Dlg 2</family>
-    <pointsize>10</pointsize>
-    <weight>50</weight>
-    <italic>false</italic>
-    <bold>false</bold>
+    <pointsize>11</pointsize>
    </font>
   </property>
   <property name="windowTitle">
@@ -26,7 +22,7 @@
    <string extracomment="ajouter une entrée"/>
   </property>
   <property name="styleSheet">
-   <string notr="true">font: 10pt &quot;MS Shell Dlg 2&quot;;</string>
+   <string notr="true"/>
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout_5">
@@ -65,11 +61,9 @@
          <widget class="QLabel" name="label">
           <property name="font">
            <font>
-            <family>MS Shell Dlg 2</family>
-            <pointsize>10</pointsize>
-            <weight>50</weight>
-            <italic>false</italic>
-            <bold>false</bold>
+            <pointsize>18</pointsize>
+            <weight>75</weight>
+            <bold>true</bold>
            </font>
           </property>
           <property name="text">
@@ -85,11 +79,8 @@
          <widget class="QTableView" name="tableView">
           <property name="font">
            <font>
-            <family>MS Shell Dlg 2</family>
-            <pointsize>10</pointsize>
-            <weight>50</weight>
-            <italic>false</italic>
-            <bold>false</bold>
+            <weight>75</weight>
+            <bold>true</bold>
            </font>
           </property>
          </widget>
@@ -155,7 +146,7 @@
           </property>
           <layout class="QGridLayout" name="gridLayout_4">
            <property name="sizeConstraint">
-            <enum>QLayout::SetFixedSize</enum>
+            <enum>QLayout::SetNoConstraint</enum>
            </property>
            <item row="5" column="0">
             <widget class="QGroupBox" name="groupBox_3">
@@ -317,15 +308,8 @@
              </property>
              <property name="font">
               <font>
-               <family>MS Shell Dlg 2</family>
-               <pointsize>10</pointsize>
-               <weight>50</weight>
-               <italic>false</italic>
-               <bold>false</bold>
+               <pointsize>12</pointsize>
               </font>
-             </property>
-             <property name="layoutDirection">
-              <enum>Qt::LeftToRight</enum>
              </property>
              <property name="alignment">
               <set>Qt::AlignCenter</set>
@@ -345,11 +329,7 @@
              </property>
              <property name="font">
               <font>
-               <family>MS Shell Dlg 2</family>
-               <pointsize>10</pointsize>
-               <weight>50</weight>
-               <italic>false</italic>
-               <bold>false</bold>
+               <pointsize>12</pointsize>
               </font>
              </property>
              <property name="displayFormat">
@@ -374,11 +354,7 @@
          <widget class="QTableView" name="tableView_2">
           <property name="font">
            <font>
-            <family>MS Shell Dlg 2</family>
-            <pointsize>10</pointsize>
-            <weight>50</weight>
-            <italic>false</italic>
-            <bold>false</bold>
+            <pointsize>12</pointsize>
            </font>
           </property>
          </widget>
@@ -435,7 +411,7 @@
      <x>0</x>
      <y>0</y>
      <width>950</width>
-     <height>19</height>
+     <height>18</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuMENU">

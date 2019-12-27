@@ -14,6 +14,10 @@ from collections import Counter
 from datetime import datetime, timedelta
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+import pandas as pd
+import matplotlib.dates as mdates
+import numpy as np
+import matplotlib.pyplot as plt
 
 from PyQt5.QtCore import Qt, QObject, QDate, pyqtSlot, pyqtSignal, QThreadPool, QRunnable, \
     QDateTime, QRegExp, QSortFilterProxyModel, QSize, QModelIndex,QPoint, QSettings
@@ -30,6 +34,7 @@ import moise_alternatif_widgets
 import rank_dialogue
 import template_dialogue
 from DB import *
+from PandasModel import PandasModel
 
 # TODO: if value error ds calcul total raise error
 # TODO: rename pilot_1 to PCB and pilot_2 to PCM
@@ -186,6 +191,30 @@ class MainWindow(QMainWindow, moise_alternatif_widgets.Ui_MainWindow):
         # # self.tableView_2.setModel(self.db_model2)
         # self.tableView_2.setItemDelegate(self.delegate_combo)
 
+        ###################################  TAB STAT ###############################################
+        con = sqlite3.connect("LmtPilots.db")
+        query = "SELECT * FROM Pilots_hours;"
+        self.df = pd.read_sql_query(query, con,parse_dates=['date_time1','date_time2'])
+
+        self.df['difference'] = self.df['date_time2'] - self.df['date_time1']
+        total = self.df['difference'].sum()
+        self.df.loc['Total'] = pd.Series(self.df['difference'].sum(), index=['difference'])
+
+        self.model_pandas = PandasModel(self.df)
+        self.checkBox_tableau.stateChanged.connect(self.afficher_tableau)
+
+        self.pushButton_pilote_pcb.clicked.connect(self.plot_pcb)
+        self.pushButton_pilote_pcm.clicked.connect(self.plot_pcm)
+        self.pushButton_type_mission.clicked.connect(self.plot_mission)
+
+
+
+
+
+
+
+        ###################################END TAB STAT   ##################################
+
         self.lineEdit_search.textChanged.connect(self.textFilterChanged)
         self.lineEdit_search_mission.textChanged.connect(self.textFilterChangesMission)
         self.dateEdit.dateChanged.connect(self.dateFilterChanged)
@@ -239,6 +268,36 @@ class MainWindow(QMainWindow, moise_alternatif_widgets.Ui_MainWindow):
 
 
     #################################"   END MEIPASS ########################################
+
+    ###################################  TAB STAT ###############################################
+
+    def afficher_tableau(self):
+        if self.checkBox_tableau.isChecked():
+            self.tableView_3.setModel(self.model_pandas)
+        else:
+            print("marche pas")
+            self.tableView_3.reset()
+
+    def plot_pcb(self):
+        colors = ['yellowgreen', 'gold', 'lightskyblue', 'lightcoral', 'red', 'green', 'blue', 'orange', 'white',
+                  'brown']
+        self.df['pilot_1'].value_counts().plot(kind='pie', title='Proportion des pilotes en PCB', colors=colors)
+        plt.show()
+
+    def plot_pcm(self):
+        colors = ['yellowgreen', 'gold', 'lightskyblue', 'lightcoral', 'red', 'green', 'blue', 'orange', 'white',
+                  'brown']
+        self.df['pilot_2'].value_counts().plot(kind='pie', title='Proportion des pilotes en PCM', colors=colors)
+        plt.show()
+
+    def plot_mission(self):
+        colors = ['yellowgreen', 'gold', 'lightskyblue', 'lightcoral', 'red', 'green', 'blue', 'orange', 'white',
+                  'brown']
+        self.df['mission'].value_counts().plot(kind='pie', title='Proportion des types de mission', colors=colors)
+        plt.show()
+
+    ################################### END TAB STAT ###############################################
+
     def btn_clicked_enable(self):
         self.pushButton_termplate_create.setDisabled(False)
 
@@ -1337,6 +1396,7 @@ if __name__ == '__main__':
 
         # splash_pix = QPixmap('logo_armee.png')
         splash_pix = QPixmap(resource_path('logo_armee.png'))
+
 
 
 

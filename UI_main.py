@@ -44,13 +44,19 @@ class MainWindow(QMainWindow, moise_alternatif_widgets.Ui_MainWindow):
         super(MainWindow, self).__init__(parent)
         self.setupUi(self)
 
-        sshFile = "dark.stylesheet"
+
+        # sshFile = "dark.stylesheet"
+        sshFile = self.resource_path('dark.stylesheet')
+        print(sshFile)
         with open(sshFile, "r") as fh:
             self.setStyleSheet(fh.read())
 
-        imgpth = pathlib.Path.cwd()/'Armee_Air.jpg'
-        print(imgpth)
-        pix = QPixmap(str(imgpth))
+        # imgpth = pathlib.Path.cwd()/'logo_white.png'
+        # replaced above imgpth with below logo_path
+        # using resource_path func for pyinstaller
+        logo_path = self.resource_path('logo_white.png')
+        print(logo_path)
+        pix = QPixmap(str(logo_path))
         w = self.Logo_Label.width()
         h = self.Logo_Label.height()
         self.Logo_Label.setPixmap(pix.scaled(w,h))
@@ -117,9 +123,9 @@ class MainWindow(QMainWindow, moise_alternatif_widgets.Ui_MainWindow):
 
         # self.tableView_2.setModel(self.db_model2)
         self.tableView_2.setColumnHidden(0, True)
-        # self.tableView_2.resizeColumnsToContents()
-        # self.tableView_2.horizontalHeader().setStretchLastSection(True)
-        self.tableView_2.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+        self.tableView_2.resizeColumnsToContents()
+        self.tableView_2.horizontalHeader().setStretchLastSection(True)
+        # self.tableView_2.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
         self.custom_delegate2 = customDelegate2()
         self.tableView_2.setItemDelegateForColumn(4, self.custom_delegate2)
         self.tableView_2.setItemDelegateForColumn(5, self.custom_delegate2)
@@ -169,7 +175,7 @@ class MainWindow(QMainWindow, moise_alternatif_widgets.Ui_MainWindow):
         self.tableView_2.setModel(self.proxyModel2)
         self.tableView_2.verticalHeader().hide()
         self.tableView_2.setAlternatingRowColors(True)
-        self.tableView_2.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+        # self.tableView_2.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
         # self.tableView_2.setSortingEnabled(True)
         self.tableView_2.sortByColumn(0, Qt.AscendingOrder)
 
@@ -223,18 +229,14 @@ class MainWindow(QMainWindow, moise_alternatif_widgets.Ui_MainWindow):
         self.settings.setValue("pos", self.pos())
 
         e.accept()
-        ############################  MEIPASS  ##################################################
-    def resource_path(relative_path):
-        """ Get absolute path to resource, works for dev and for PyInstaller """
-        try:
-            # PyInstaller creates a temp folder and stores path in _MEIPASS
-            base_path = sys._MEIPASS
-        except Exception:
-            base_path = os.path.abspath(".")
 
+    #########################  MEIPASS  ##################################################
+    def resource_path(self, relative_path):
+        """ Get absolute path to resource, works for dev and for PyInstaller """
+        base_path = getattr(sys, '_MEIPASS', os.path.dirname(os.path.abspath(__file__)))
         return os.path.join(base_path, relative_path)
 
-    Logo = resource_path("Armee_Air.jpg")
+
 
     #################################"   END MEIPASS ########################################
     def btn_clicked_enable(self):
@@ -878,10 +880,6 @@ class ReadCsvFile():
         # return j
 
 
-
-
-
-
 class customDelegate2(QStyledItemDelegate):
     """DELEGATE INSERT CUSTOM DATEEDIT IN CELL """
 
@@ -1010,9 +1008,9 @@ class customDelegate(QStyledItemDelegate):
         super(customDelegate, self).initStyleOption(option, index)
         t = QDate.fromString(index.data(), "yyyy/MM/dd")
         if t < QDate.currentDate():
-            option.backgroundBrush = QBrush(QColor("red"))
+            option.backgroundBrush = QBrush(QColor("darkRed"))
         elif not t > QDate.currentDate().addDays(60):
-            option.backgroundBrush = QBrush(QColor("yellow"))
+            option.backgroundBrush = QBrush(QColor("#B8B747"))
         # TODO : Review text to be set to blue
 
 
@@ -1326,11 +1324,21 @@ class Worker(QRunnable):
 
 
 if __name__ == '__main__':
+
+    def resource_path(relative_path):
+        """ Get absolute path to resource, works for dev and for PyInstaller """
+        base_path = getattr(sys, '_MEIPASS', os.path.dirname(os.path.abspath(__file__)))
+        return os.path.join(base_path, relative_path)
+
+
     try:
         app = QApplication(sys.argv)
         # create and display splash screen
 
-        splash_pix = QPixmap('Logo_armee.png')
+        # splash_pix = QPixmap('logo_armee.png')
+        splash_pix = QPixmap(resource_path('logo_armee.png'))
+
+
 
         splash = QSplashScreen(splash_pix, Qt.WindowStaysOnTopHint)
         # splash.setWindowFlags(Qt.WindowStaysOnTopHint | Qt.FramelessWindowHint)

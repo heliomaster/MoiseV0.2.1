@@ -30,11 +30,20 @@
 
 QLineEdit {
     background: #5A5444;
+    border-radius: 5px;
 }
 
 QPushButton {
     background: #49445A;
+    border-radius: 10px;
 }
+
+/*QHeaderView{color: yellow}*/
+
+QLabel#Logo_Label{ background-color: black}
+QLabel#label{background-color: black}
+
+
 
 
 
@@ -61,8 +70,8 @@ QRadioButton::indicator:unchecked:hover, QCheckBox::indicator:unchecked:hover {
 }
 
 QRadioButton::indicator::checked, QCheckBox::indicator::checked {
-	border: 1px solid #5A5A5A;
-	background: #5A5A5A;
+	border: 1px solid black;
+	background: black;
 }
 
 QRadioButton::indicator:checked:hover, QCheckBox::indicator:checked:hover {

@@ -10,13 +10,12 @@ import sqlite3
 import sys
 import time
 import traceback
+from builtins import enumerate
 from collections import Counter
 from datetime import datetime, timedelta
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 import pandas as pd
-import matplotlib.dates as mdates
-import numpy as np
 import matplotlib.pyplot as plt
 
 from PyQt5.QtCore import Qt, QObject, QDate, pyqtSlot, pyqtSignal, QThreadPool, QRunnable, \

@@ -121,16 +121,18 @@ class MainWindow(QMainWindow, moise_alternatif_widgets.Ui_MainWindow):
         self.db_model2.setRelation(1, QSqlRelation('pilots_id', 'last_name', 'last_name'))
         self.db_model2.setRelation(2, QSqlRelation('pilots_id', 'last_name', 'last_name'))
         self.db_model2.setRelation(3, QSqlRelation('Aircraft', 'immatriculation', 'immatriculation'))
-        header_fileds_2 = ["PCB", "PCM", "APPAREIL", "OFF BLOCK", "ON BLOCK", "TOTAL", "MISSION", "COMMENTAIRES"]
+        header_fileds_2 = ["    PCB     ", "    PCM      ", "APPAREIL", "OFF BLOCK", "ON BLOCK", "TOTAL", "      MISSION       ", "COMMENTAIRES"]
         for count, item in enumerate(header_fileds_2, start=1):
             self.db_model2.setHeaderData(count, Qt.Horizontal, item)
         self.db_model2.select()
 
         # self.tableView_2.setModel(self.db_model2)
         self.tableView_2.setColumnHidden(0, True)
-        self.tableView_2.resizeColumnsToContents()
+        # self.tableView_2.resizeColumnsToContents(True)
         self.tableView_2.horizontalHeader().setStretchLastSection(True)
-        # self.tableView_2.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+        self.tableView_2.horizontalHeader().setSectionResizeMode(1)
+
+
         self.custom_delegate2 = customDelegate2()
         self.tableView_2.setItemDelegateForColumn(4, self.custom_delegate2)
         self.tableView_2.setItemDelegateForColumn(5, self.custom_delegate2)
@@ -268,7 +270,17 @@ class MainWindow(QMainWindow, moise_alternatif_widgets.Ui_MainWindow):
 
 
     #################################"   END MEIPASS ########################################
+    def resizeEvent(self, event):
+        """ Resize all sections of tableview_2 to content and user interactive because when setting 'setLastSelectionStretch'
+        user can't resize headerview """
 
+        super().resizeEvent(event)
+        header = self.tableView_2.horizontalHeader()
+        for column in range(header.count()):
+            header.setSectionResizeMode(column, QHeaderView.ResizeToContents)
+            width = header.sectionSize(column)
+            header.setSectionResizeMode(column, QHeaderView.Interactive)
+            header.resizeSection(column, width)
     ###################################  TAB STAT ###############################################
 
     def afficher_tableau(self):
@@ -579,18 +591,24 @@ class MainWindow(QMainWindow, moise_alternatif_widgets.Ui_MainWindow):
         # context = {'company_name': "World company", 'my_name': "Capitaine Morgand", 'hours': vrb_hours}
         if self.select_template() == 'template_try.docx':
             context = {'company_name': "World company", 'my_name': "Capitaine Morgand", 'hours': vrb_hours,
-                       'clean_row': clean_row, 'get_hour': get_hour}
+                       'clean_row': clean_row, 'get_hour': get_hour, 'hours': vrb_hours}
         elif self.select_template() == 'template_CR.docx':
             context = {'current_date': current_date, f'{proxy_mission_type}': proxy_mission_type, 'hours': vrb_hours}
             # context = {'current_date': current_date, 'Avion': proxy_mission_type}
         else:
             context = {'company_name': "My company", f'{proxy_mission_type}': proxy_mission_type, 'hours': vrb_hours}
-        # try:
-        doc.render(context)
-        doc.save("Generated_" + self.select_template())
-        # finally:
-        #     with open('pilot_time_var.csv', 'w', newline='', ) as f:
-        #         w = csv.writer(f)
+        try:
+            doc.render(context)
+            doc.save("Generated_" + self.select_template())
+        except Exception as e:
+            QMessageBox.critical(self.parent(), f"UNE ERREUR DE TYPE {e} EST SURVENUE ",
+                                 "\n Le template présente un probleme: veuillez contacter le developpeur \n"
+                                 f"Le type d'erreur figure sur la ligne suivante: \n {e}",
+                                 QMessageBox.Ok)
+
+        finally:
+            with open('pilot_time_var.csv', 'w', newline='', ) as f:
+                w = csv.writer(f)
 
 
 

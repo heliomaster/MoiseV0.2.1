@@ -44,9 +44,6 @@ QLabel#Logo_Label{ background-color: black}
 QLabel#label{background-color: black}
 
 
-
-
-
 QWidget::item:selected {
 	background: #3D7848;
 }

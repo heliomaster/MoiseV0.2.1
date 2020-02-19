@@ -118,6 +118,7 @@ class MainWindow(QMainWindow, moise_alternatif_widgets.Ui_MainWindow):
         self.db_model2 = QSqlRelationalTableModel()
         self.db_model2.setTable('Pilots_hours')
         self.db_model2.setEditStrategy(QSqlRelationalTableModel.OnFieldChange)
+        '''ATTENTION SI DEUX LAST_NAME IDENTIQUE TABLE FAUSSE VOIR SI NECESSITE DE MODIF'''
         self.db_model2.setRelation(1, QSqlRelation('pilots_id', 'last_name', 'last_name'))
         self.db_model2.setRelation(2, QSqlRelation('pilots_id', 'last_name', 'last_name'))
         self.db_model2.setRelation(3, QSqlRelation('Aircraft', 'immatriculation', 'immatriculation'))
@@ -198,12 +199,15 @@ class MainWindow(QMainWindow, moise_alternatif_widgets.Ui_MainWindow):
         query = "SELECT * FROM Pilots_hours;"
         self.df = pd.read_sql_query(query, con,parse_dates=['date_time1','date_time2'])
 
+
         self.df['difference'] = self.df['date_time2'] - self.df['date_time1']
         total = self.df['difference'].sum()
         self.df.loc['Total'] = pd.Series(self.df['difference'].sum(), index=['difference'])
 
+
         self.model_pandas = PandasModel(self.df)
-        self.checkBox_tableau.stateChanged.connect(self.afficher_tableau)
+        # self.checkBox_tableau.stateChanged.connect(self.afficher_tableau)
+        self.afficher_tableau()
 
         self.pushButton_pilote_pcb.clicked.connect(self.plot_pcb)
         self.pushButton_pilote_pcm.clicked.connect(self.plot_pcm)
@@ -284,11 +288,13 @@ class MainWindow(QMainWindow, moise_alternatif_widgets.Ui_MainWindow):
     ###################################  TAB STAT ###############################################
 
     def afficher_tableau(self):
-        if self.checkBox_tableau.isChecked():
-            self.tableView_3.setModel(self.model_pandas)
-        else:
-            print("marche pas")
-            self.tableView_3.reset()
+        self.tableView_3.setModel(self.model_pandas)
+
+        # if self.checkBox_tableau.isChecked():
+        #     self.tableView_3.setModel(self.model_pandas)
+        # else:
+        #     print("marche pas")
+        #     self.tableView_3.reset()
 
     def plot_pcb(self):
         colors = ['yellowgreen', 'gold', 'lightskyblue', 'lightcoral', 'red', 'green', 'blue', 'orange', 'white',
@@ -438,6 +444,7 @@ class MainWindow(QMainWindow, moise_alternatif_widgets.Ui_MainWindow):
 
         self.combo.activated.connect(self.select_template)
         self.btn_box.accepted.connect(self.create_document)
+        self.btn_box.accepted.connect(self.save_the_doc_somewhereelse)
         # self.btn_box.accepted.connect(self.write_csv)
         # self.btn_box.accepted.connect(self.read_stored_pilot)
 
@@ -534,27 +541,27 @@ class MainWindow(QMainWindow, moise_alternatif_widgets.Ui_MainWindow):
         finally:
             QMessageBox.information(self.parent(), "SUCCES", f"LA LIGNE {pilots_time_val} A BIEN ETE INSERER")
 
-    # def read_stored_pilot(self):
-    #     my_list = []
-    #     try:
-    #         with open('pilot_time_var.csv', newline='') as f:
-    #             r = csv.reader(f)
-    #             for row in r:
-    #                 my_list.append(row)
-    #         return my_list
-    #     except IOError as e:
-    #         QMessageBox.critical((self.parent(), "ERREUR", f" ERREUR de type {e}"))
+    def read_stored_pilot(self):
+        my_list = []
+        try:
+            with open('pilot_time_var.csv', newline='') as f:
+                r = csv.reader(f)
+                for row in r:
+                    my_list.append(row)
+            return my_list
+        except IOError as e:
+            QMessageBox.critical((self.parent(), "ERREUR", f" ERREUR de type {e}"))
 
 
 
     def create_document(self):
-
         current_date = time.strftime('%d/%m/%Y', time.localtime())
         vrb_hours = '{} H {} M'.format(*self.proxy_hours_minutes())
         proxy_pilot_name = self.proxyModel2.index(0, 1).data(Qt.DisplayRole)
         proxy_mission_type = self.proxyModel3.index(0, 7).data(Qt.DisplayRole)
-        # fichier = self.read_stored_pilot()
-        # print(fichier)
+        print(proxy_mission_type)
+        fichier = self.read_stored_pilot()
+        print(fichier)
         try:
             data = ReadCsvFile("pilot_time_var.csv")
         except FileNotFoundError as e:
@@ -593,13 +600,15 @@ class MainWindow(QMainWindow, moise_alternatif_widgets.Ui_MainWindow):
             context = {'company_name': "World company", 'my_name': "Capitaine Morgand", 'hours': vrb_hours,
                        'clean_row': clean_row, 'get_hour': get_hour, 'hours': vrb_hours}
         elif self.select_template() == 'template_CR.docx':
-            context = {'current_date': current_date, f'{proxy_mission_type}': proxy_mission_type, 'hours': vrb_hours}
+            context = {'current_date': current_date, f'{proxy_mission_type}': proxy_mission_type, 'hours': vrb_hours,'fichier':fichier}
             # context = {'current_date': current_date, 'Avion': proxy_mission_type}
         else:
             context = {'company_name': "My company", f'{proxy_mission_type}': proxy_mission_type, 'hours': vrb_hours}
         try:
             doc.render(context)
             doc.save("Generated_" + self.select_template())
+
+
         except Exception as e:
             QMessageBox.critical(self.parent(), f"UNE ERREUR DE TYPE {e} EST SURVENUE ",
                                  "\n Le template présente un probleme: veuillez contacter le developpeur \n"
@@ -611,7 +620,14 @@ class MainWindow(QMainWindow, moise_alternatif_widgets.Ui_MainWindow):
                 w = csv.writer(f)
 
 
-
+    def save_the_doc_somewhereelse(self):
+        file_name = QFileDialog.getSaveFileName(self, 'SAVE DOC', os.getcwd(), 'DOCX files(*.docx)')
+        try:
+            shutil.move(str(pathlib.Path.cwd().joinpath(f'Generated_{self.select_template()}')), file_name[0])
+        except Exception as e:
+            QMessageBox.Abort(f'Pas de fichier selectionné {e}')
+        finally:
+            QMessageBox.information(self.parent(), "SUCCES", "Fichier enregistré à l'endroit indiqué")
 
 
     ########################   END TEMPLATES WINDOW    ############################3

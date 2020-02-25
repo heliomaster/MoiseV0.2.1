@@ -168,6 +168,23 @@
              </layout>
             </widget>
            </item>
+           <item row="1" column="0">
+            <widget class="QComboBox" name="comboBox_pilot2"/>
+           </item>
+           <item row="11" column="0">
+            <widget class="QPushButton" name="pushButton_termplate_create">
+             <property name="text">
+              <string>CREER TEMPLATE</string>
+             </property>
+            </widget>
+           </item>
+           <item row="9" column="0">
+            <widget class="QPushButton" name="pushButton_snapshot_template">
+             <property name="text">
+              <string>INSTANTANE PILOTE</string>
+             </property>
+            </widget>
+           </item>
            <item row="6" column="0">
             <widget class="QLineEdit" name="lineEdit_commentaires">
              <property name="text">
@@ -181,27 +198,10 @@
              </property>
             </widget>
            </item>
-           <item row="1" column="0">
-            <widget class="QComboBox" name="comboBox_pilot2"/>
-           </item>
-           <item row="9" column="0">
-            <widget class="QPushButton" name="pushButton_snapshot_template">
-             <property name="text">
-              <string>SNAPSHOT TEMPLATE</string>
-             </property>
-            </widget>
-           </item>
-           <item row="12" column="0">
+           <item row="13" column="0">
             <widget class="QPushButton" name="pushButton_aircraft">
              <property name="text">
               <string>AIRCRAFT</string>
-             </property>
-            </widget>
-           </item>
-           <item row="10" column="0">
-            <widget class="QPushButton" name="pushButton_termplate_create">
-             <property name="text">
-              <string>CREER TEMPLATE</string>
              </property>
             </widget>
            </item>
@@ -218,7 +218,7 @@
              </property>
             </widget>
            </item>
-           <item row="11" column="0">
+           <item row="12" column="0">
             <widget class="QPushButton" name="pushButton_add_pilot">
              <property name="whatsThis">
               <string extracomment="Inserer dans la Base de Donnéee un Nouveua Pilote"/>
@@ -247,13 +247,6 @@
            <item row="2" column="0">
             <widget class="QComboBox" name="comboBox_aircraft"/>
            </item>
-           <item row="13" column="0">
-            <widget class="QPushButton" name="rmv_btn">
-             <property name="text">
-              <string>REMOVE</string>
-             </property>
-            </widget>
-           </item>
            <item row="7" column="0">
             <widget class="QPushButton" name="pushButton_insert">
              <property name="text">
@@ -264,6 +257,20 @@
              </property>
              <property name="default">
               <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="14" column="0">
+            <widget class="QPushButton" name="rmv_btn">
+             <property name="text">
+              <string>REMOVE</string>
+             </property>
+            </widget>
+           </item>
+           <item row="10" column="0">
+            <widget class="QPushButton" name="pushButton_snapshot_mission">
+             <property name="text">
+              <string>INSTANTANE MISSION</string>
              </property>
             </widget>
            </item>

@@ -216,7 +216,21 @@ QTabBar::tab:selected {
 	background: #353535;
 }
 
+QDateTimeEdit::down-arrow {
+	border: 1px solid #5A5A5A;
+	background: #5A444A;
+}
 
+QDateTimeEdit::drop-down {
+	border: 1px solid #5A5A5A;
+	background: #353535;
+}
+
+QDateTimeEdit::down-arrow {
+	width: 3px;
+	height: 3px;
+	border: 1px solid #5A5A5A;
+}
 
 QComboBox::down-arrow {
 	border: 1px solid #5A5A5A;

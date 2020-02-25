@@ -52,7 +52,6 @@ class MainWindow(QMainWindow, moise_alternatif_widgets.Ui_MainWindow):
 
         # sshFile = "dark.stylesheet"
         sshFile = self.resource_path('dark.stylesheet')
-        print(sshFile)
         with open(sshFile, "r") as fh:
             self.setStyleSheet(fh.read())
 
@@ -232,8 +231,9 @@ class MainWindow(QMainWindow, moise_alternatif_widgets.Ui_MainWindow):
         self.pushButton_termplate_create.setDisabled(True)
         self.pushButton_termplate_create.clicked.connect(self.show_template_dialogue)
 
-        self.pushButton_snapshot_template.clicked.connect(self.write_csv)
+        self.pushButton_snapshot_template.clicked.connect(self.write_csv_pilot)
         self.pushButton_snapshot_template.clicked.connect(self.btn_clicked_enable)
+        self.pushButton_snapshot_mission.clicked.connect(self.write_csv_mission)
 
 
 
@@ -400,13 +400,13 @@ class MainWindow(QMainWindow, moise_alternatif_widgets.Ui_MainWindow):
         '''Links 2 combobox together'''
         self.comboBox_type_msn.addItem('ENTRAINEMENT', ['Navigation', 'Reconnaissance terrain', 'Mania', 'CAS'])
         self.comboBox_type_msn.addItem('PREPARATION OPS', ['Liaison Mise en place sur base', 'Liaison Carburant',
-                                                           'Liaison Mécanique', 'Plastron lent Avion',
-                                                           'Plastron lent Helico', 'EDSA', 'Contrôle Aérien',
-                                                           'Appuie Feu CFAA', 'Au profit de la base Basex',
-                                                           'Au profit de la base Photo', 'Au profit de la base Autre'])
+                                                           'Liaison Mecanique', 'Plastron lent Avion',
+                                                           'Plastron lent Helico', 'EDSA', 'MASA',
+                                                           'Appuie Feu CFAA', 'BASEX',
+                                                           'Photo', 'Autre'])
         self.comboBox_type_msn.addItem('OPS - CDAOA', ['Banco', 'DPSA', 'PPS', 'Ratest'])
         self.comboBox_type_msn.addItem('RAYONNEMENT BIA', ['Rayonnement BIA'])
-        self.comboBox_type_msn.addItem('AUTRE', ['Autre'])
+        self.comboBox_type_msn.addItem('AUTRE', ['Autre Speci'])
 
         self.comboBox_type_msn.currentIndexChanged.connect(self.index_changed)
         self.index_changed(self.comboBox_type_msn.currentIndex())
@@ -445,7 +445,7 @@ class MainWindow(QMainWindow, moise_alternatif_widgets.Ui_MainWindow):
         self.combo.activated.connect(self.select_template)
         self.btn_box.accepted.connect(self.create_document)
         self.btn_box.accepted.connect(self.save_the_doc_somewhereelse)
-        # self.btn_box.accepted.connect(self.write_csv)
+        # self.btn_box.accepted.connect(self.write_csv_pilot)
         # self.btn_box.accepted.connect(self.read_stored_pilot)
 
         dialog.setAttribute(Qt.WA_DeleteOnClose)
@@ -520,7 +520,7 @@ class MainWindow(QMainWindow, moise_alternatif_widgets.Ui_MainWindow):
         delta = (rounded_end - rounded_begin).days
         return delta * 34
 
-    def write_csv(self):
+    def write_csv_pilot(self):
         query = QSqlQuery()
         query.exec_(f'SELECT rank,first_name FROM Pilots_id WHERE last_name LIKE "'
                     f'{self.proxyModel3.index(0, 1).data(Qt.DisplayRole)}" ')
@@ -530,7 +530,8 @@ class MainWindow(QMainWindow, moise_alternatif_widgets.Ui_MainWindow):
             first_name = record.value(1)
 
         vrb_hours = '{} H {} M'.format(*self.proxy_hours_minutes())
-        pilots_time_val = [rank, self.proxyModel3.index(0, 1).data(Qt.DisplayRole), first_name, vrb_hours]
+        pilots_time_val = [rank, self.proxyModel3.index(0, 1).data(Qt.DisplayRole), first_name, vrb_hours,
+                           self.proxyModel3.index(0,7).data(Qt.DisplayRole)]
         try:
 
             with open('pilot_time_var.csv', 'a', newline='', ) as f:
@@ -541,16 +542,53 @@ class MainWindow(QMainWindow, moise_alternatif_widgets.Ui_MainWindow):
         finally:
             QMessageBox.information(self.parent(), "SUCCES", f"LA LIGNE {pilots_time_val} A BIEN ETE INSERER")
 
-    def read_stored_pilot(self):
-        my_list = []
+    # def read_stored_pilot(self):
+    #     my_list = []
+    #     try:
+    #         with open('pilot_time_var.csv', newline='') as f:
+    #             r = csv.reader(f)
+    #             for row in r:
+    #                 my_list.append(row)
+    #         return my_list
+    #     except IOError as e:
+    #         QMessageBox.critical((self.parent(), "ERREUR", f" ERREUR de type {e}"))
+
+    def write_csv_mission(self):
+        # query = QSqlQuery()
+        # query.exec_(f'SELECT rank,first_name FROM Pilots_id WHERE last_name LIKE "'
+        #             f'{self.proxyModel3.index(0, 1).data(Qt.DisplayRole)}" ')
+        # while query.next():
+        #     record = query.record()
+        #     rank = record.value(0)
+        #     first_name = record.value(1)
+
+        vrb_hours = '{} H {} M'.format(*self.proxy_hours_minutes())
+        mission_time_val = [self.proxyModel3.index(0, 7).data(Qt.DisplayRole), vrb_hours]
         try:
-            with open('pilot_time_var.csv', newline='') as f:
-                r = csv.reader(f)
-                for row in r:
-                    my_list.append(row)
-            return my_list
+
+            with open('mission_time_var.csv', 'a', newline='', ) as f:
+                w = csv.writer(f, mission_time_val)
+                w.writerow(mission_time_val)
+                QMessageBox.information(self.parent(), "SUCCES", f"LA LIGNE {mission_time_val} A BIEN ETE INSERER")
         except IOError as e:
-            QMessageBox.critical((self.parent(), "ERREUR", f" ERREUR de type {e}"))
+            QMessageBox.critical(self.parent(), "ERREUR", f"Erreur de type {e}")
+
+
+    #
+    # def read_stored_mission(self):
+    #     my_list = []
+    #     try:
+    #         with open('mission_time_var.csv', newline='') as f:
+    #             r = csv.reader(f)
+    #             for row in r:
+    #                 my_list.append(row)
+    #
+    #         print(f"this is {my_list}")
+    #         return my_list
+    #
+    #     except IOError as e:
+    #         QMessageBox.critical((self.parent(), "ERREUR", f" ERREUR de type {e}"))
+
 
 
 
@@ -559,11 +597,13 @@ class MainWindow(QMainWindow, moise_alternatif_widgets.Ui_MainWindow):
         vrb_hours = '{} H {} M'.format(*self.proxy_hours_minutes())
         proxy_pilot_name = self.proxyModel2.index(0, 1).data(Qt.DisplayRole)
         proxy_mission_type = self.proxyModel3.index(0, 7).data(Qt.DisplayRole)
-        print(proxy_mission_type)
-        fichier = self.read_stored_pilot()
-        print(fichier)
+
+        # fichier = self.read_stored_pilot()
+        # fichier2 = self.read_stored_mission()
+        # print(fichier)
         try:
             data = ReadCsvFile("pilot_time_var.csv")
+            data2 = ReadCsvFile("mission_time_var.csv")
         except FileNotFoundError as e:
             Creation = QMessageBox.critical(self.parent(), "PAS DE FICHIER",
                                             "Voulez vous en creer un ?",
@@ -573,10 +613,20 @@ class MainWindow(QMainWindow, moise_alternatif_widgets.Ui_MainWindow):
                     w = csv.writer(f, delimiter=',')
                     w.writerow(['DUMMY', 'DUMY', 'DUMMY', '24 H 00 M'])
 
+                with open('mission_time_var.csv', 'a', newline='', ) as f:
+                    w = csv.writer(f, delimiter=',')
+                    w.writerow(['DUMMY', '24 H 00 M'])
+
+
+
         # print(data.get_row())
         # try:
         clean_row = data.clean_row()
         get_hour = data.get_hour()
+        dict_mission = data2.get_dict()
+
+        clean_row_mission = data2.clean_row()
+        print(f'this is it {clean_row_mission}')
 
         # except UnboundLocalError as e:
         #     print(e)
@@ -597,11 +647,13 @@ class MainWindow(QMainWindow, moise_alternatif_widgets.Ui_MainWindow):
         # print('the text is :'+self.select_template())
         # context = {'company_name': "World company", 'my_name': "Capitaine Morgand", 'hours': vrb_hours}
         if self.select_template() == 'template_try.docx':
-            context = {'company_name': "World company", 'my_name': "Capitaine Morgand", 'hours': vrb_hours,
-                       'clean_row': clean_row, 'get_hour': get_hour, 'hours': vrb_hours}
+            context = {'clean_row':clean_row,'get_hour':get_hour,'clean_row_mission':clean_row_mission}
         elif self.select_template() == 'template_CR.docx':
-            context = {'current_date': current_date, f'{proxy_mission_type}': proxy_mission_type, 'hours': vrb_hours,'fichier':fichier}
+            context = {'current_date': current_date, f'{proxy_mission_type}': proxy_mission_type,
+                       'hours': vrb_hours,'dict_mission':dict_mission}
             # context = {'current_date': current_date, 'Avion': proxy_mission_type}
+        elif self.select_template() == 'template_essai.docx':
+            context = {'clean_row':clean_row,'get_hour':get_hour,'clean_row_mission':clean_row_mission}
         else:
             context = {'company_name': "My company", f'{proxy_mission_type}': proxy_mission_type, 'hours': vrb_hours}
         try:
@@ -618,16 +670,20 @@ class MainWindow(QMainWindow, moise_alternatif_widgets.Ui_MainWindow):
         finally:
             with open('pilot_time_var.csv', 'w', newline='', ) as f:
                 w = csv.writer(f)
+            with open('mission_time_var.csv', 'w', newline='', ) as f:
+                w = csv.writer(f)
 
 
     def save_the_doc_somewhereelse(self):
         file_name = QFileDialog.getSaveFileName(self, 'SAVE DOC', os.getcwd(), 'DOCX files(*.docx)')
-        try:
-            shutil.move(str(pathlib.Path.cwd().joinpath(f'Generated_{self.select_template()}')), file_name[0])
-        except Exception as e:
-            QMessageBox.Abort(f'Pas de fichier selectionné {e}')
-        finally:
-            QMessageBox.information(self.parent(), "SUCCES", "Fichier enregistré à l'endroit indiqué")
+        if file_name[0] is not None and file_name[0] != '':
+            try:
+                shutil.move(str(pathlib.Path.cwd().joinpath(f'Generated_{self.select_template()}')), file_name[0])
+                QMessageBox.information(self.parent(), "SUCCES", "Fichier enregistré à l'endroit indiqué")
+            except Exception as e:
+                QMessageBox.Abort(f'Une erreur de type {e} Contacter le Dev')
+
+
 
 
     ########################   END TEMPLATES WINDOW    ############################3
@@ -958,19 +1014,16 @@ class ReadCsvFile():
         return h
 
     def clean_row(self):
-        o = [el[:-1] for el in self.get_row()]
+        o = [el[:] for el in self.get_row()]
         m = [[' '.join(i)] for i in o]
+        b = [item for sublist in m for item in sublist]
+        c = str(b).replace("'", '')
+        return c
 
-        return m
-        # the_lines = []
-        # for i in m:
-        #     for j in i:
-        #         the_lines.append(j)
-        #
-        # return the_lines
+    def get_dict(self):
+        h = dict(self.get_row())
+        return h
 
-        #
-        # return j
 
 
 class customDelegate2(QStyledItemDelegate):

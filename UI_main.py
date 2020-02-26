@@ -521,17 +521,36 @@ class MainWindow(QMainWindow, moise_alternatif_widgets.Ui_MainWindow):
         return delta * 34
 
     def write_csv_pilot(self):
+
         query = QSqlQuery()
-        query.exec_(f'SELECT rank,first_name FROM Pilots_id WHERE last_name LIKE "'
-                    f'{self.proxyModel3.index(0, 1).data(Qt.DisplayRole)}" ')
+        if self.checkBox_pcb.isChecked():
+            query.exec_(f'SELECT rank,first_name,last_name FROM Pilots_id WHERE last_name LIKE "'
+                        f'{self.proxyModel3.index(0, 1).data(Qt.DisplayRole)}" ')
+        elif self.checkBox_pcm.isChecked():
+            query.exec_(f'SELECT rank,first_name,last_name FROM Pilots_id WHERE last_name LIKE "'
+                        f'{self.proxyModel3.index(0, 2).data(Qt.DisplayRole)}" ')
+        else:
+            query.exec_(f'SELECT rank,first_name,last_name FROM Pilots_id WHERE last_name LIKE "'
+                        f'{self.proxyModel3.index(0, 1).data(Qt.DisplayRole)}" ')
         while query.next():
             record = query.record()
             rank = record.value(0)
             first_name = record.value(1)
+            last_name = record.value(2)
+
 
         vrb_hours = '{} H {} M'.format(*self.proxy_hours_minutes())
-        pilots_time_val = [rank, self.proxyModel3.index(0, 1).data(Qt.DisplayRole), first_name, vrb_hours,
-                           self.proxyModel3.index(0,7).data(Qt.DisplayRole)]
+
+        if self.checkBox_pcb.isChecked():
+            pilots_time_val = [rank, last_name, first_name, vrb_hours,
+                                   self.proxyModel3.index(0,7).data(Qt.DisplayRole),"PCB"]
+        elif self.checkBox_pcm.isChecked():
+            pilots_time_val = [rank, last_name, first_name, vrb_hours,
+                               self.proxyModel3.index(0, 7).data(Qt.DisplayRole), "PCM"]
+        else:
+            pilots_time_val = [rank, last_name, first_name, vrb_hours,
+                               self.proxyModel3.index(0, 7).data(Qt.DisplayRole)]
+
         try:
 
             with open('pilot_time_var.csv', 'a', newline='', ) as f:

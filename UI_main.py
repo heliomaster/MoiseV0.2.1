@@ -549,7 +549,7 @@ class MainWindow(QMainWindow, moise_alternatif_widgets.Ui_MainWindow):
                                self.proxyModel3.index(0, 7).data(Qt.DisplayRole), "PCM"]
         else:
             pilots_time_val = [rank, last_name, first_name, vrb_hours,
-                               self.proxyModel3.index(0, 7).data(Qt.DisplayRole)]
+                               self.proxyModel3.index(0, 7).data(Qt.DisplayRole),"PCB"]
 
         try:
 
@@ -641,11 +641,19 @@ class MainWindow(QMainWindow, moise_alternatif_widgets.Ui_MainWindow):
         # print(data.get_row())
         # try:
         clean_row = data.clean_row()
-        get_hour = data.get_hour()
-        dict_mission = data2.get_dict()
+
+
+
 
         clean_row_mission = data2.clean_row()
         print(f'this is it {clean_row_mission}')
+
+        test = data2.get_row()
+        print(f'this is test/data2 get row {test}')
+        test3 = dict(test)
+        print(f'this is test3 {test3}')
+        print(f'this is data get row {data.get_row()}')
+
 
         # except UnboundLocalError as e:
         #     print(e)
@@ -666,13 +674,12 @@ class MainWindow(QMainWindow, moise_alternatif_widgets.Ui_MainWindow):
         # print('the text is :'+self.select_template())
         # context = {'company_name': "World company", 'my_name': "Capitaine Morgand", 'hours': vrb_hours}
         if self.select_template() == 'template_try.docx':
-            context = {'clean_row':clean_row,'get_hour':get_hour,'clean_row_mission':clean_row_mission}
+            context = {'clean_row':clean_row,'clean_row_mission':clean_row_mission}
         elif self.select_template() == 'template_CR.docx':
-            context = {'current_date': current_date, f'{proxy_mission_type}': proxy_mission_type,
-                       'hours': vrb_hours,'dict_mission':dict_mission}
+            context = {'current_date': current_date, 'test5': test3, 'test': data.get_row()}
             # context = {'current_date': current_date, 'Avion': proxy_mission_type}
         elif self.select_template() == 'template_essai.docx':
-            context = {'clean_row':clean_row,'get_hour':get_hour,'clean_row_mission':clean_row_mission}
+            context = {'clean_row':clean_row,'clean_row_mission':clean_row_mission}
         else:
             context = {'company_name': "My company", f'{proxy_mission_type}': proxy_mission_type, 'hours': vrb_hours}
         try:
@@ -1354,6 +1361,9 @@ class RelationalDelegate(QSqlRelationalDelegate):
                          QSqlRelationalDelegate.sizeHint(self, option, index).height() + 40)
         else:
             return super(RelationalDelegate, self).sizeHint(option, index)
+
+
+
 
 
 class Dialogu2(QDialog, TabView2.Ui_insertDialogu):

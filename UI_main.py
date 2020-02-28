@@ -19,7 +19,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 from PyQt5.QtCore import Qt, QObject, QDate, pyqtSlot, pyqtSignal, QThreadPool, QRunnable, \
-    QDateTime, QRegExp, QSortFilterProxyModel, QSize, QModelIndex,QPoint, QSettings
+    QDateTime, QRegExp, QSortFilterProxyModel, QSize, QModelIndex,QPoint, QSettings, QIdentityProxyModel
 
 from PyQt5.QtGui import QBrush, QColor, QTextDocument,QPixmap,QValidator
 
@@ -186,7 +186,17 @@ class MainWindow(QMainWindow, moise_alternatif_widgets.Ui_MainWindow):
         # self.tableView_2.setSortingEnabled(True)
         self.tableView_2.sortByColumn(0, Qt.AscendingOrder)
 
+########sets tableview2 with combobox on rows 1,2,3
         self.tableView_2.setItemDelegate(RelationalDelegate())
+
+########Prevents column 7 from editing
+        self.proxyModelDisableCol = ProxyModelDisableColumn()
+        self.proxyModelDisableCol.setSourceModel(self.db_model2)
+        self.tableView_2.setModel(self.proxyModelDisableCol)
+        self.tableView_2.model().setColumnReadOnly(7,True)
+
+
+
         #
         # self.model_aircraft = QSqlTableModel(self.db_model2)
         # self.delegate_combo = QSqlRelationalDelegate()
@@ -1427,7 +1437,30 @@ class Validator(QValidator):
 
 
 
+class ProxyModelDisableColumn(QIdentityProxyModel):
+    '''Disables a chosen column from being edited used as follows:
+        self.proxyModelDisableCol = ProxyModelDisableColumn()
+        self.proxyModelDisableCol.setSourceModel(self.db_model2)
+        self.tableView_2.setModel(self.proxyModelDisableCol)
+        self.tableView_2.model().setColumnReadOnly(7,True)'''
+    def __init__(self, parent=None):
+        super(ProxyModelDisableColumn, self).__init__(parent)
+        self._columns = set()
 
+    def columnReadOnly(self, column):
+        return column in self._columns
+
+    def setColumnReadOnly(self, column, readonly=True):
+        if readonly:
+            self._columns.add(column)
+        else:
+            self._columns.discard(column)
+
+    def flags(self, index):
+        flags = super(ProxyModelDisableColumn, self).flags(index)
+        if self.columnReadOnly(index.column()):
+            flags &= ~Qt.ItemIsEditable
+        return flags
 
 
 # class chooseTemplate(QDialog, template_dialogue.Ui_Dialog):

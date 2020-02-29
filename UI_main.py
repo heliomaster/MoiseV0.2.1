@@ -15,17 +15,14 @@ from collections import Counter
 from datetime import datetime, timedelta
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
-import pandas as pd
+
 import matplotlib.pyplot as plt
-
+import pandas as pd
 from PyQt5.QtCore import Qt, QObject, QDate, pyqtSlot, pyqtSignal, QThreadPool, QRunnable, \
-    QDateTime, QRegExp, QSortFilterProxyModel, QSize, QModelIndex,QPoint, QSettings, QIdentityProxyModel
-
-from PyQt5.QtGui import QBrush, QColor, QTextDocument,QPixmap,QValidator
-
+    QDateTime, QRegExp, QSortFilterProxyModel, QSize, QModelIndex, QPoint, QSettings, QIdentityProxyModel
+from PyQt5.QtGui import QBrush, QColor, QTextDocument, QPixmap, QValidator
 from PyQt5.QtWidgets import QMainWindow, QStyledItemDelegate, QApplication, QDateEdit, QMessageBox, \
-    QDateTimeEdit, QHeaderView, QSpinBox, QFileDialog, QDialog,QSplashScreen,QProgressBar
-
+    QDateTimeEdit, QHeaderView, QSpinBox, QFileDialog, QDialog, QSplashScreen, QProgressBar
 from docxtpl import DocxTemplate
 
 import TabView2
@@ -34,7 +31,6 @@ import rank_dialogue
 import template_dialogue
 from DB import *
 from PandasModel import PandasModel
-
 
 # TODO: if value error ds calcul total raise error
 # TODO: rename pilot_1 to PCB and pilot_2 to PCM
@@ -49,7 +45,6 @@ class MainWindow(QMainWindow, moise_alternatif_widgets.Ui_MainWindow):
         super(MainWindow, self).__init__(parent)
         self.setupUi(self)
 
-
         # sshFile = "dark.stylesheet"
         sshFile = self.resource_path('dark.stylesheet')
         with open(sshFile, "r") as fh:
@@ -59,11 +54,11 @@ class MainWindow(QMainWindow, moise_alternatif_widgets.Ui_MainWindow):
         # replaced above imgpth with below logo_path
         # using resource_path func for pyinstaller
         logo_path = self.resource_path('logo_white.png')
-        print(logo_path)
+
         pix = QPixmap(str(logo_path))
         w = self.Logo_Label.width()
         h = self.Logo_Label.height()
-        self.Logo_Label.setPixmap(pix.scaled(w,h))
+        self.Logo_Label.setPixmap(pix.scaled(w, h))
 
         # SET UP DB
         self.DB = LmtDataBase()
@@ -90,14 +85,9 @@ class MainWindow(QMainWindow, moise_alternatif_widgets.Ui_MainWindow):
         self.insert_combo_aircraft()
         self.insert_missions()
 
-
-
-
-
         # MENU SAVE DB FILE
 
         self.action_save_file.triggered.connect(self.save_file)
-
 
         # BUTTONS ACTIONS
         self.pushButton_add.clicked.connect(self.add_record)
@@ -121,24 +111,23 @@ class MainWindow(QMainWindow, moise_alternatif_widgets.Ui_MainWindow):
         self.db_model2.setRelation(1, QSqlRelation('pilots_id', 'last_name', 'last_name'))
         self.db_model2.setRelation(2, QSqlRelation('pilots_id', 'last_name', 'last_name'))
         self.db_model2.setRelation(3, QSqlRelation('Aircraft', 'immatriculation', 'immatriculation'))
-        header_fileds_2 = ["      PCB       ", "    PCM      ", "APPAREIL", "  OFF BLOCK  ", "  ON BLOCK  ", "  TOTAL  ", "           MISSION              ", "COMMENTAIRES"]
+        header_fileds_2 = ["      PCB       ", "    PCM      ", "APPAREIL", "  OFF BLOCK  ", "  ON BLOCK  ",
+                           "  TOTAL  ", "           MISSION              ", "COMMENTAIRES"]
         for count, item in enumerate(header_fileds_2, start=1):
             self.db_model2.setHeaderData(count, Qt.Horizontal, item)
         self.db_model2.select()
 
-        # self.tableView_2.setModel(self.db_model2)
+
         self.tableView_2.setColumnHidden(0, True)
-        # self.tableView_2.resizeColumnsToContents(True)
+
         self.tableView_2.horizontalHeader().setStretchLastSection(True)
         self.tableView_2.horizontalHeader().setSectionResizeMode(1)
-
 
         self.custom_delegate2 = customDelegate2()
         self.tableView_2.setItemDelegateForColumn(4, self.custom_delegate2)
         self.tableView_2.setItemDelegateForColumn(5, self.custom_delegate2)
 
-        # self.commbo_delegate = ComboDelegate()
-        # self.tableView_2.setItemDelegateForColumn(7,self.commbo_delegate)
+
 
         self.dateEdit.setCalendarPopup(True)
         self.dateEdit_2.setCalendarPopup(True)
@@ -150,12 +139,6 @@ class MainWindow(QMainWindow, moise_alternatif_widgets.Ui_MainWindow):
         self.comboBox_price_aircraft.addItems(self.retrieve_aircraft_var())
 
 
-
-
-
-        # self.label.setText('{} H {} M'.format(*self.hours_minutes()))
-        # self.label.setText(str(self.last_col_filtered))
-        # self.label.setText('{} H {} M'.format(*self.proxy_hours_minutes()))
 
         ############  PROXY MODEL ###############
         self.proxyModel2 = MySortFilterProxyModel(self)
@@ -169,65 +152,40 @@ class MainWindow(QMainWindow, moise_alternatif_widgets.Ui_MainWindow):
 
         #######################################################
 
-        # self.checkBox_pcm.stateChanged.connect(self.textFilterChanged)
 
-        # self.checkBox_pcm.stateChanged.connect(self.proxyModel2.filterAcceptsRow)
-
-        # for row in range(0,self.proxyModel2.rowCount()):
-        #     self.tableView_2.openPersistentEditor(self.proxyModel2.index(row,0))
-
-        # self.proxyView = self.tableView_2
-        # self.proxyView.setAlternatingRowColors(True)
-        # self.proxyView.setModel(self.proxyModel)
         self.tableView_2.setModel(self.proxyModel2)
         self.tableView_2.verticalHeader().hide()
         self.tableView_2.setAlternatingRowColors(True)
-        # self.tableView_2.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
-        # self.tableView_2.setSortingEnabled(True)
 
 
-########sets tableview2 with combobox on rows 1,2,3
+        ########sets tableview2 with combobox on rows 1,2,3
         self.tableView_2.setItemDelegate(RelationalDelegate())
 
-########Prevents column 7 from editing
+        ########Prevents column 7 from editing
         self.proxyModelDisableCol = ProxyModelDisableColumn()
         self.proxyModelDisableCol.setSourceModel(self.db_model2)
         self.tableView_2.setModel(self.proxyModelDisableCol)
-        self.tableView_2.model().setColumnReadOnly(7,True)
+        self.tableView_2.model().setColumnReadOnly(7, True)
         self.tableView_2.sortByColumn(0, Qt.AscendingOrder)
 
 
 
-        #
-        # self.model_aircraft = QSqlTableModel(self.db_model2)
-        # self.delegate_combo = QSqlRelationalDelegate()
-        # # self.tableView_2.setModel(self.db_model2)
-        # self.tableView_2.setItemDelegate(self.delegate_combo)
-
         ###################################  TAB STAT ###############################################
         con = sqlite3.connect("LmtPilots.db")
         query = "SELECT * FROM Pilots_hours;"
-        self.df = pd.read_sql_query(query, con,parse_dates=['date_time1','date_time2'])
-
+        self.df = pd.read_sql_query(query, con, parse_dates=['date_time1', 'date_time2'])
 
         self.df['difference'] = self.df['date_time2'] - self.df['date_time1']
         total = self.df['difference'].sum()
         self.df.loc['Total'] = pd.Series(self.df['difference'].sum(), index=['difference'])
 
-
         self.model_pandas = PandasModel(self.df)
-        # self.checkBox_tableau.stateChanged.connect(self.afficher_tableau)
+
         self.afficher_tableau()
 
         self.pushButton_pilote_pcb.clicked.connect(self.plot_pcb)
         self.pushButton_pilote_pcm.clicked.connect(self.plot_pcm)
         self.pushButton_type_mission.clicked.connect(self.plot_mission)
-
-
-
-
-
-
 
         ###################################END TAB STAT   ##################################
 
@@ -245,8 +203,6 @@ class MainWindow(QMainWindow, moise_alternatif_widgets.Ui_MainWindow):
         self.pushButton_snapshot_template.clicked.connect(self.write_csv_pilot)
         self.pushButton_snapshot_template.clicked.connect(self.btn_clicked_enable)
         self.pushButton_snapshot_mission.clicked.connect(self.write_csv_mission)
-
-
 
         self.dialogue_pilot = RankDialogue()
         self.pushButton_add_pilot.clicked.connect(self.show_class_dialogue_pilot)
@@ -282,8 +238,6 @@ class MainWindow(QMainWindow, moise_alternatif_widgets.Ui_MainWindow):
         base_path = getattr(sys, '_MEIPASS', os.path.dirname(os.path.abspath(__file__)))
         return os.path.join(base_path, relative_path)
 
-
-
     #################################"   END MEIPASS ########################################
     def resizeEvent(self, event):
         """ Resize all sections of tableview_2 to content and user interactive because when setting 'setLastSelectionStretch'
@@ -296,16 +250,13 @@ class MainWindow(QMainWindow, moise_alternatif_widgets.Ui_MainWindow):
             width = header.sectionSize(column)
             header.setSectionResizeMode(column, QHeaderView.Interactive)
             header.resizeSection(column, width)
+
     ###################################  TAB STAT ###############################################
 
     def afficher_tableau(self):
         self.tableView_3.setModel(self.model_pandas)
 
-        # if self.checkBox_tableau.isChecked():
-        #     self.tableView_3.setModel(self.model_pandas)
-        # else:
-        #     print("marche pas")
-        #     self.tableView_3.reset()
+
 
     def plot_pcb(self):
         colors = ['yellowgreen', 'gold', 'lightskyblue', 'lightcoral', 'red', 'green', 'blue', 'orange', 'white',
@@ -334,7 +285,6 @@ class MainWindow(QMainWindow, moise_alternatif_widgets.Ui_MainWindow):
         """on changing dateTimeEdit, dateTimeEdit_2 gets updated accordingly so current DT is minimum selectable"""
         self.dateTimeEdit_2.setMinimumDateTime(self.dateTimeEdit.dateTime())
 
-
     def jaffiche_les_heures(self):
         try:
             self.update_record()
@@ -347,8 +297,6 @@ class MainWindow(QMainWindow, moise_alternatif_widgets.Ui_MainWindow):
         except UnboundLocalError as d:
             QMessageBox.information(self.parent(), f"ERREUR {d}", "Aucune entrée ne correspond à cette recherche \n",
                                     QMessageBox.Ok)
-
-
 
     def show_class_dialogue_aircraft(self):
         self.dialogue_ac.show()
@@ -428,8 +376,6 @@ class MainWindow(QMainWindow, moise_alternatif_widgets.Ui_MainWindow):
         if data is not None:
             self.comboBox_ss_type_msn.addItems(data)
 
-
-
     ####################END ADD WIDGETS ###################################
 
     ####################  TEMPLATES WINDOW #########################################
@@ -444,26 +390,23 @@ class MainWindow(QMainWindow, moise_alternatif_widgets.Ui_MainWindow):
         self.combo = dialog.ui.comboBox
         self.btn_box = dialog.ui.buttonBox
 
-        # self.proxy_pilot_name = self.proxyModel2.index(1, 1).data(Qt.DisplayRole)
-        # templates_list = ["template_try.docx", "template_essai.docx"]
+
         path = pathlib.Path.cwd()
         templates_list2 = [x for x in os.listdir(path) if x.startswith("template") and x.endswith(".docx")]
         dialog.ui.comboBox.addItems(
             templates_list2)  # templates_list2 used: if problem with combo template revert to template_list1
-        # self.combo_ac.addItems(self.retrieve_aircraft_var())
-        # self.combo_pil.addItems((self.retrieve_pilot_var()))
+
 
         self.combo.activated.connect(self.select_template)
         self.btn_box.accepted.connect(self.create_document)
         self.btn_box.accepted.connect(self.save_the_doc_somewhereelse)
-        # self.btn_box.accepted.connect(self.write_csv_pilot)
-        # self.btn_box.accepted.connect(self.read_stored_pilot)
+
 
         dialog.setAttribute(Qt.WA_DeleteOnClose)
         dialog.exec_()
 
     def select_template(self):
-        # print(self.combo.currentText())
+
         return self.combo.currentText()
 
     def retrieve_aircraft_var(self):
@@ -495,8 +438,6 @@ class MainWindow(QMainWindow, moise_alternatif_widgets.Ui_MainWindow):
                         f'{self.comboBox_price_aircraft.currentText()}" ')
             while query.next():
                 rate = float(query.value(0))
-                print(rate)
-                print(type(rate))
 
 
             # if self.comboBox_price_aircraft.currentText() == "F-GTPH":
@@ -515,7 +456,7 @@ class MainWindow(QMainWindow, moise_alternatif_widgets.Ui_MainWindow):
             price = round(hours * rate + (rate * minutes) / 60, 2)
             price_with_int = self.calculate_aircraft_price_with_interest() + price
 
-            # print(price)
+
             self.label_price.setText(str(price) + " EUROS \n " + str(price_with_int) + " EUROS ")
             return price
         except UnboundLocalError as e:
@@ -549,18 +490,17 @@ class MainWindow(QMainWindow, moise_alternatif_widgets.Ui_MainWindow):
             first_name = record.value(1)
             last_name = record.value(2)
 
-
         vrb_hours = '{} H {} M'.format(*self.proxy_hours_minutes())
 
         if self.checkBox_pcb.isChecked():
             pilots_time_val = [rank, last_name, first_name, vrb_hours,
-                                   self.proxyModel3.index(0,7).data(Qt.DisplayRole),"PCB"]
+                               self.proxyModel3.index(0, 7).data(Qt.DisplayRole), "PCB"]
         elif self.checkBox_pcm.isChecked():
             pilots_time_val = [rank, last_name, first_name, vrb_hours,
                                self.proxyModel3.index(0, 7).data(Qt.DisplayRole), "PCM"]
         else:
             pilots_time_val = [rank, last_name, first_name, vrb_hours,
-                               self.proxyModel3.index(0, 7).data(Qt.DisplayRole),"PCB"]
+                               self.proxyModel3.index(0, 7).data(Qt.DisplayRole), "PCB"]
 
         try:
 
@@ -572,25 +512,9 @@ class MainWindow(QMainWindow, moise_alternatif_widgets.Ui_MainWindow):
         finally:
             QMessageBox.information(self.parent(), "SUCCES", f"LA LIGNE {pilots_time_val} A BIEN ETE INSERER")
 
-    # def read_stored_pilot(self):
-    #     my_list = []
-    #     try:
-    #         with open('pilot_time_var.csv', newline='') as f:
-    #             r = csv.reader(f)
-    #             for row in r:
-    #                 my_list.append(row)
-    #         return my_list
-    #     except IOError as e:
-    #         QMessageBox.critical((self.parent(), "ERREUR", f" ERREUR de type {e}"))
+
 
     def write_csv_mission(self):
-        # query = QSqlQuery()
-        # query.exec_(f'SELECT rank,first_name FROM Pilots_id WHERE last_name LIKE "'
-        #             f'{self.proxyModel3.index(0, 1).data(Qt.DisplayRole)}" ')
-        # while query.next():
-        #     record = query.record()
-        #     rank = record.value(0)
-        #     first_name = record.value(1)
 
         vrb_hours = '{} H {} M'.format(*self.proxy_hours_minutes())
         mission_time_val = [self.proxyModel3.index(0, 7).data(Qt.DisplayRole), vrb_hours]
@@ -604,23 +528,6 @@ class MainWindow(QMainWindow, moise_alternatif_widgets.Ui_MainWindow):
             QMessageBox.critical(self.parent(), "ERREUR", f"Erreur de type {e}")
 
 
-    #
-    # def read_stored_mission(self):
-    #     my_list = []
-    #     try:
-    #         with open('mission_time_var.csv', newline='') as f:
-    #             r = csv.reader(f)
-    #             for row in r:
-    #                 my_list.append(row)
-    #
-    #         print(f"this is {my_list}")
-    #         return my_list
-    #
-    #     except IOError as e:
-    #         QMessageBox.critical((self.parent(), "ERREUR", f" ERREUR de type {e}"))
-
-
-
 
     def create_document(self):
         current_date = time.strftime('%d/%m/%Y', time.localtime())
@@ -628,9 +535,6 @@ class MainWindow(QMainWindow, moise_alternatif_widgets.Ui_MainWindow):
         proxy_pilot_name = self.proxyModel2.index(0, 1).data(Qt.DisplayRole)
         proxy_mission_type = self.proxyModel3.index(0, 7).data(Qt.DisplayRole)
 
-        # fichier = self.read_stored_pilot()
-        # fichier2 = self.read_stored_mission()
-        # print(fichier)
         try:
             data = ReadCsvFile("pilot_time_var.csv")
             data2 = ReadCsvFile("mission_time_var.csv")
@@ -648,49 +552,25 @@ class MainWindow(QMainWindow, moise_alternatif_widgets.Ui_MainWindow):
                     w.writerow(['DUMMY', '24 H 00 M'])
 
 
-
-        # print(data.get_row())
         # try:
         clean_row = data.clean_row()
-
-
-
-
         clean_row_mission = data2.clean_row()
-        print(f'this is it {clean_row_mission}')
-
         test = data2.get_row()
-        print(f'this is test/data2 get row {test}')
         test3 = dict(test)
-        print(f'this is test3 {test3}')
-        print(f'this is data get row {data.get_row()}')
-
 
         # except UnboundLocalError as e:
         #     print(e)
 
-        # pilot1 = str(data.get_row()).replace(",","").replace("'","")
-        # print(pilot1)
-
-        # my_string = ', '.join(pilot1)
-        # print(type(pilot1))
-        # print(pilot1)
-
 
         displayed_hours = self.label_2.text()
 
-        # print(vrb_hours, vrb_aircraft, vrb_pilots, proxy_pilot_name,displayed_hours)
-        #
         doc = DocxTemplate(self.select_template())
-        # print('the text is :'+self.select_template())
-        # context = {'company_name': "World company", 'my_name': "Capitaine Morgand", 'hours': vrb_hours}
         if self.select_template() == 'template_try.docx':
-            context = {'clean_row':clean_row,'clean_row_mission':clean_row_mission}
+            context = {'clean_row': clean_row, 'clean_row_mission': clean_row_mission}
         elif self.select_template() == 'template_CR.docx':
             context = {'current_date': current_date, 'test5': test3, 'test': data.get_row()}
-            # context = {'current_date': current_date, 'Avion': proxy_mission_type}
         elif self.select_template() == 'template_essai.docx':
-            context = {'clean_row':clean_row,'clean_row_mission':clean_row_mission}
+            context = {'clean_row': clean_row, 'clean_row_mission': clean_row_mission}
         else:
             context = {'company_name': "My company", f'{proxy_mission_type}': proxy_mission_type, 'hours': vrb_hours}
         try:
@@ -710,7 +590,6 @@ class MainWindow(QMainWindow, moise_alternatif_widgets.Ui_MainWindow):
             with open('mission_time_var.csv', 'w', newline='', ) as f:
                 w = csv.writer(f)
 
-
     def save_the_doc_somewhereelse(self):
         file_name = QFileDialog.getSaveFileName(self, 'SAVE DOC', os.getcwd(), 'DOCX files(*.docx)')
         if file_name[0] is not None and file_name[0] != '':
@@ -720,11 +599,7 @@ class MainWindow(QMainWindow, moise_alternatif_widgets.Ui_MainWindow):
             except Exception as e:
                 QMessageBox.Abort(f'Une erreur de type {e} Contacter le Dev')
 
-
-
-
     ########################   END TEMPLATES WINDOW    ############################3
-
 
     def save_file(self):
         '''Saves cwd DB to chosen directory i.e file_name[0] in .db format'''
@@ -735,7 +610,6 @@ class MainWindow(QMainWindow, moise_alternatif_widgets.Ui_MainWindow):
                 # shutil.copy2(pathlib.Path.cwd() / 'LmtPilots.db', file_name[0])
             except Exception as e:
                 QMessageBox.Abort('pas de fichier selectionné erreur {}'.format(e))
-
 
     def oh_no(self):
         """start email thread"""
@@ -786,7 +660,6 @@ class MainWindow(QMainWindow, moise_alternatif_widgets.Ui_MainWindow):
             if filter_columns:
                 v = [pilot_1, filter_columns, pilot_mail]
                 results.append(v)
-        # print(v)
         return results
 
     dictionnaire = {2: "CONTRAT", 3: "VSA", 4: "CEMPN", 5: "CONTROL TAC", 6: "CONTROL CLUB",
@@ -808,15 +681,11 @@ class MainWindow(QMainWindow, moise_alternatif_widgets.Ui_MainWindow):
         return [self.convert(x, d) if isinstance(x, list) else d.get(x, x) for x in l]
 
     def send_email(self, progress_callback):
-        print("marche mon vieux")
         try:
             for i in range(len(self.meds)):
                 email = '< {}'.format(self.meds[i][2]) + ' >'
                 name = ' {}'.format(self.meds[i][0])
                 renewal = ' {}'.format(','.join(self.meds[i][1]))
-                print(email)
-                print(name)
-                print(renewal)
                 msg = MIMEMultipart()
                 msg['from'] = os.environ.get("LUIGI_MAIL")
                 msg['to'] = email
@@ -843,10 +712,8 @@ class MainWindow(QMainWindow, moise_alternatif_widgets.Ui_MainWindow):
         ################### END MAIL ##########################
 
         ################### ui_main_tab2 #########################
+
     #########   FILTER ROW  ##########
-    # def get_filtered_rows(self):
-    #     print("rows in fitered view is {} ".format(self.proxyModel2.rowCount()))
-    #     print("rows in original model is {}".format(self.db_model2.rowCount()))
 
     def last_col_filtered(self):
         """Gets all the data from the filtered model and returns last column i.e total hours """
@@ -857,8 +724,6 @@ class MainWindow(QMainWindow, moise_alternatif_widgets.Ui_MainWindow):
                 index = self.proxyModel3.index(row, column)
                 data[row].append(str(self.proxyModel3.data(index)))
             data2 = [col[6] for col in data]
-        # print(data)
-        # print(data2)
         return data2
 
     def convert_last_col_filtered(self):
@@ -878,40 +743,8 @@ class MainWindow(QMainWindow, moise_alternatif_widgets.Ui_MainWindow):
 
         td = self.convert_last_col_filtered()
         resultat = td.days * 24 + td.seconds // 3600, (td.seconds // 60) % 60
-        # print('{} H {} M'.format(*resultat))
-        print(resultat)
         return resultat
 
-    # def update_combobox_pilots(self):
-    #     # Filling combox _avion
-    #     query_aircraft = QSqlQuery("SELECT immatriculation FROM Aircraft")
-    #     liste_ac = []
-    #     while query_aircraft.next():
-    #         aircraft = query_aircraft.value(0)
-    #         liste_ac.append(aircraft)
-    #     # self.comboBox_avion.addItems(liste_ac)
-    #     # self.comboBox_sel_ac.addItems(liste_ac)
-    #     return liste_ac
-    #
-    # def get_tot_hours(self):
-    #     """select dates from database """
-    #     query1 = QSqlQuery("SELECT date_time1,date_time2 FROM Pilots_hours")
-    #     liste = []
-    #     while query1.next():
-    #         date1 = query1.value(0)
-    #         date2 = query1.value(1)
-    #         essai = datetime.strptime(date2, "%Y/%m/%d %H:%M") - datetime.strptime(date1, "%Y/%m/%d %H:%M")
-    #         liste.append(essai)
-    #     total = sum(liste, timedelta())
-    #     return total
-    #
-    # def hours_minutes(self):
-    #     """conversion of time delta get_tot_hours to hours"""
-    #     td = self.get_tot_hours()
-    #     # td = self.convert_last_col_filtered()
-    #     resultat = td.days * 24 + td.seconds // 3600, (td.seconds // 60) % 60
-    #     print('{} H {} M'.format(*resultat))
-    #     return resultat
 
     def get_hours_diff(self):
         '''used by update_record method to enter total column in SQL'''
@@ -929,13 +762,6 @@ class MainWindow(QMainWindow, moise_alternatif_widgets.Ui_MainWindow):
             result.append(str(diff))
         return result
 
-    # @pyqtSlot()
-    # def on_pushButton_clicked(self):
-    #     #     self.add_record2()
-    #     #
-    #     # def add_record2(self):
-    #     row = self.proxyModel2.rowCount()
-    #     self.db_model2.insertRow(row)
 
     @pyqtSlot()
     def on_pushButton_insert_clicked(self):
@@ -965,24 +791,14 @@ class MainWindow(QMainWindow, moise_alternatif_widgets.Ui_MainWindow):
         if deleteconfirm == QMessageBox.Yes:
             position = self.tableView_2.currentIndex().row()
             self.proxyModel3.removeRow(position, 1)
-            # TO REMOVE DIRECTLY FROM DB MODEL BUT DOESN'T WORK IF PROXY IN BETWEEN
-            # index = self.tableView_2.selectionModel().currentIndex()
-            # self.db_model2.removeRow(index)
-            # self.db_model2.submitAll()
-            # self.db_model2.select()
             return
         else:
-            # index = self.tableView_2.selectionModel().currentIndex().row()
-            # print(index)
             return
-        #
-        # ligne = self.tableView_2.selectionMode().currentIndex().row()
-        # print(ligne)
-        # self.proxyModel2.removeRow(ligne)
+
 
     def update_record(self):
         """UPDATES EACH SQL ROW WITH TIME DELTA FROM PREVIOUS 2 COLUMNS"""
-        # print(self.get_hours_diff())
+
         conn = sqlite3.connect("LmtPilots.db")
         cur = conn.cursor()
         cur.execute("SELECT * FROM Pilots_hours")
@@ -990,7 +806,6 @@ class MainWindow(QMainWindow, moise_alternatif_widgets.Ui_MainWindow):
         cur.executemany('UPDATE Pilots_hours SET total=? WHERE id=?', zip(self.get_hours_diff(), rowids))
         conn.commit()
         self.db_model2.select()
-        # print(self.get_tot_hours())
 
 
     #############  count days #####################
@@ -1002,9 +817,8 @@ class MainWindow(QMainWindow, moise_alternatif_widgets.Ui_MainWindow):
             pilot = query.value(0)
             date = query.value(1)
             dcn.append(pilot)
-            # date_1.append(date)
             date_1.append(datetime.strptime(date, "%Y/%m/%d %H:%M").date())
-        grouped_list = zip(dcn,date_1)
+        grouped_list = zip(dcn, date_1)
         grouped_list = list(grouped_list)
         set_grouped_list = Counter(set(grouped_list))
 
@@ -1013,7 +827,7 @@ class MainWindow(QMainWindow, moise_alternatif_widgets.Ui_MainWindow):
         for i in dict_counter.items():
             k = i[0]
             k2 = i[1]
-            query2 = QSqlQuery("UPDATE Pilots_exp SET jours_restants =+ {} WHERE pilot_1 LIKE '{}'".format(k2,k))
+            query2 = QSqlQuery("UPDATE Pilots_exp SET jours_restants =+ {} WHERE pilot_1 LIKE '{}'".format(k2, k))
             query2.exec_()
 
     @pyqtSlot()
@@ -1022,19 +836,6 @@ class MainWindow(QMainWindow, moise_alternatif_widgets.Ui_MainWindow):
         self.count_days()
 
     ############ end count days ################
-
-    # @pyqtSlot()
-    # def on_pushButton_update_clicked(self):
-    #     self.update_record()
-    # self.calculate_aircraft_price()
-    # self.calculate_aircraft_price_with_interest()
-    # try:
-    #     self.label_2.setText('{} H {} M'.format(*self.proxy_hours_minutes()))
-    # except ValueError as e:
-    #     QMessageBox.critical(self.parent(), "UNE ERREUR DE TYPE VALUEERROR EST SURVENUE ",
-    #                          f"{e} \nles données de date sont probablement erronées \n"
-    #                          "Verifier et SUPRIMER l'entrée erroné",
-    #                          QMessageBox.Ok)
 
 
 class ReadCsvFile():
@@ -1060,7 +861,6 @@ class ReadCsvFile():
     def get_dict(self):
         h = dict(self.get_row())
         return h
-
 
 
 class customDelegate2(QStyledItemDelegate):
@@ -1160,7 +960,6 @@ class FilterTextProxyModel(QSortFilterProxyModel):
         self.endRemoveRows()
 
 
-
 ################### END ui_main_tab2 #######################
 
 class customDelegate(QStyledItemDelegate):
@@ -1220,45 +1019,6 @@ class SpinBoxDelegate(QStyledItemDelegate):
 
     def updateEditorGeometry(self, editor, option, index):
         editor.setGeometry(option.rect)
-
-
-#
-# class ComboDelegate(QStyledItemDelegate):
-#     """
-#     A delegate that places a fully functioning QComboBox in every
-#     cell of the column to which it's applied
-#     """
-#
-#     def __init__(self, parent=None):
-#         super(QStyledItemDelegate, self).__init__(parent)
-#
-#     def createEditor(self, parent, option, index):
-#         combo = QComboBox(parent)
-#         li = []
-#         li.append("Zero")
-#         li.append("One")
-#         li.append("Two")
-#         li.append("Three")
-#         li.append("Four")
-#         li.append("Five")
-#         combo.addItems(li)
-#         # self.connect(combo, QtCore.SIGNAL("currentIndexChanged(int)"), self, QtCore.SLOT("currentIndexChanged()"))
-#         combo.currentIndexChanged.connect(self.currentIndexChanged)
-#         return combo
-#
-#     def setEditorData(self, editor, index):
-#         editor.blockSignals(True)
-#
-#
-#         editor.setCurrentIndex(index.row())
-#         editor.blockSignals(False)
-#
-#     def setModelData(self, editor, model, index):
-#         model.setData(index, editor.currentIndex())
-#
-#     @pyqtSlot()
-#     def currentIndexChanged(self):
-#         self.commitData.emit(self.sender())
 
 
 class RelationalDelegate(QSqlRelationalDelegate):
@@ -1374,9 +1134,6 @@ class RelationalDelegate(QSqlRelationalDelegate):
             return super(RelationalDelegate, self).sizeHint(option, index)
 
 
-
-
-
 class Dialogu2(QDialog, TabView2.Ui_insertDialogu):
     """Opens Dialogue box to insert New Aircraft in database"""
 
@@ -1394,7 +1151,7 @@ class Dialogu2(QDialog, TabView2.Ui_insertDialogu):
         query.bindValue(0, self.lineEdit.text())
         query.bindValue(1, self.lineEdit_2.text())
         query.bindValue(2, self.lineEdit_3.text())
-        query.bindValue(3,self.lineEdit_prix_avion.text())
+        query.bindValue(3, self.lineEdit_prix_avion.text())
         query.exec_()
         msg = QMessageBox()
         msg.setText("Aéronef inseré dans la base de données")
@@ -1431,11 +1188,12 @@ class RankDialogue(QDialog, rank_dialogue.Ui_Dialog):
         msg.setText("Pilote inseré dans la base de données")
         msg.exec_()
 
+
 class Validator(QValidator):
     """sets lineEdits to upperCase only"""
-    def validate(self,string,pos):
-        return QValidator.Acceptable,string.upper(),pos
 
+    def validate(self, string, pos):
+        return QValidator.Acceptable, string.upper(), pos
 
 
 class ProxyModelDisableColumn(QIdentityProxyModel):
@@ -1444,6 +1202,7 @@ class ProxyModelDisableColumn(QIdentityProxyModel):
         self.proxyModelDisableCol.setSourceModel(self.db_model2)
         self.tableView_2.setModel(self.proxyModelDisableCol)
         self.tableView_2.model().setColumnReadOnly(7,True)'''
+
     def __init__(self, parent=None):
         super(ProxyModelDisableColumn, self).__init__(parent)
         self._columns = set()
@@ -1462,41 +1221,6 @@ class ProxyModelDisableColumn(QIdentityProxyModel):
         if self.columnReadOnly(index.column()):
             flags &= ~Qt.ItemIsEditable
         return flags
-
-
-# class chooseTemplate(QDialog, template_dialogue.Ui_Dialog):
-#     """Opens Dialogue box to choose docx templates"""
-#
-#     def __init__(self, parent=None):
-#         super(chooseTemplate, self).__init__(parent)
-#         self.setupUi(self)
-#
-#         templates_list = ["template_try.docx","template_essai.docx"]
-#         self.comboBox.addItems(templates_list)
-#
-#         self.comboBox.activated.connect(self.select_template)
-#         self.buttonBox.accepted.connect(self.create_docx_document)
-#
-#
-#     def create_docx_document(self):
-#         print("it is alive, alive")
-#         connectClass = MainWindow.set_templates_fixes(self)
-#         # connectClass2 = MainWindow.proxy_hours_minutes(self)
-#         # print(MainWindow.label_2())
-#
-#
-#
-#
-#     def select_template(self):
-#         print(self.comboBox.currentText())
-#         return self.comboBox.currentText()
-
-
-# def create_templates(self):
-#
-#     tpm = template_work.docxTemplateCreation()
-#     tpm.create_docx_document("template_try.docx")
-
 
 
 ############ CLASS THREADING #############
@@ -1547,16 +1271,13 @@ if __name__ == '__main__':
         # splash_pix = QPixmap('logo_armee.png')
         splash_pix = QPixmap(resource_path('logo_armee.png'))
 
-
-
-
         splash = QSplashScreen(splash_pix, Qt.WindowStaysOnTopHint)
         # splash.setWindowFlags(Qt.WindowStaysOnTopHint | Qt.FramelessWindowHint)
         splash.setEnabled(False)
         # add progress bar
         progressBar = QProgressBar(splash)
         progressBar.setMaximum(10)
-        progressBar.setGeometry(0, splash_pix.height() -65, splash_pix.width(), 20)
+        progressBar.setGeometry(0, splash_pix.height() - 65, splash_pix.width(), 20)
 
         splash.show()
         splash.showMessage("<h1><font color='black'>----Bienvenue dans Moise!----</font></h1>",

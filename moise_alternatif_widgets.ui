@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>950</width>
-    <height>480</height>
+    <height>489</height>
    </rect>
   </property>
   <property name="font">
@@ -29,7 +29,7 @@
     <item row="0" column="0">
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
@@ -75,6 +75,7 @@
          <widget class="QTableView" name="tableView">
           <property name="font">
            <font>
+            <pointsize>10</pointsize>
             <weight>75</weight>
             <bold>true</bold>
            </font>
@@ -363,7 +364,7 @@
          <widget class="QTableView" name="tableView_2">
           <property name="font">
            <font>
-            <pointsize>12</pointsize>
+            <pointsize>10</pointsize>
            </font>
           </property>
           <property name="sizeAdjustPolicy">
@@ -462,7 +463,13 @@
          </widget>
         </item>
         <item row="1" column="0">
-         <widget class="QTableView" name="tableView_3"/>
+         <widget class="QTableView" name="tableView_3">
+          <property name="font">
+           <font>
+            <pointsize>10</pointsize>
+           </font>
+          </property>
+         </widget>
         </item>
        </layout>
       </widget>

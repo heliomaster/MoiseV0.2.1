@@ -121,7 +121,7 @@ class MainWindow(QMainWindow, moise_alternatif_widgets.Ui_MainWindow):
         self.db_model2.setRelation(1, QSqlRelation('pilots_id', 'last_name', 'last_name'))
         self.db_model2.setRelation(2, QSqlRelation('pilots_id', 'last_name', 'last_name'))
         self.db_model2.setRelation(3, QSqlRelation('Aircraft', 'immatriculation', 'immatriculation'))
-        header_fileds_2 = ["    PCB     ", "    PCM      ", "APPAREIL", "OFF BLOCK", "ON BLOCK", "TOTAL", "      MISSION       ", "COMMENTAIRES"]
+        header_fileds_2 = ["      PCB       ", "    PCM      ", "APPAREIL", "  OFF BLOCK  ", "  ON BLOCK  ", "  TOTAL  ", "           MISSION              ", "COMMENTAIRES"]
         for count, item in enumerate(header_fileds_2, start=1):
             self.db_model2.setHeaderData(count, Qt.Horizontal, item)
         self.db_model2.select()
@@ -184,7 +184,7 @@ class MainWindow(QMainWindow, moise_alternatif_widgets.Ui_MainWindow):
         self.tableView_2.setAlternatingRowColors(True)
         # self.tableView_2.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
         # self.tableView_2.setSortingEnabled(True)
-        self.tableView_2.sortByColumn(0, Qt.AscendingOrder)
+
 
 ########sets tableview2 with combobox on rows 1,2,3
         self.tableView_2.setItemDelegate(RelationalDelegate())
@@ -194,6 +194,7 @@ class MainWindow(QMainWindow, moise_alternatif_widgets.Ui_MainWindow):
         self.proxyModelDisableCol.setSourceModel(self.db_model2)
         self.tableView_2.setModel(self.proxyModelDisableCol)
         self.tableView_2.model().setColumnReadOnly(7,True)
+        self.tableView_2.sortByColumn(0, Qt.AscendingOrder)
 
 
 

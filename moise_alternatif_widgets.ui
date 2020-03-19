@@ -29,7 +29,7 @@
     <item row="0" column="0">
      <widget class="QTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>0</number>
+       <number>1</number>
       </property>
       <widget class="QWidget" name="tab">
        <attribute name="title">
@@ -161,19 +161,34 @@
              </property>
              <layout class="QGridLayout" name="gridLayout">
               <item row="0" column="0">
-               <widget class="QComboBox" name="comboBox_type_msn"/>
+               <widget class="QComboBox" name="comboBox_type_msn">
+                <property name="toolTip">
+                 <string>Selectionner une gategorie</string>
+                </property>
+               </widget>
               </item>
               <item row="1" column="0">
-               <widget class="QComboBox" name="comboBox_ss_type_msn"/>
+               <widget class="QComboBox" name="comboBox_ss_type_msn">
+                <property name="toolTip">
+                 <string>Selectionner une sous catégorie</string>
+                </property>
+               </widget>
               </item>
              </layout>
             </widget>
            </item>
            <item row="1" column="0">
-            <widget class="QComboBox" name="comboBox_pilot2"/>
+            <widget class="QComboBox" name="comboBox_pilot2">
+             <property name="toolTip">
+              <string>Selectionner un personnel</string>
+             </property>
+            </widget>
            </item>
            <item row="11" column="0">
             <widget class="QPushButton" name="pushButton_termplate_create">
+             <property name="toolTip">
+              <string>Creer le document word</string>
+             </property>
              <property name="text">
               <string>CREER TEMPLATE</string>
              </property>
@@ -181,6 +196,9 @@
            </item>
            <item row="9" column="0">
             <widget class="QPushButton" name="pushButton_snapshot_template">
+             <property name="toolTip">
+              <string>Sauvegarder la ligne 1 avec les données pilote</string>
+             </property>
              <property name="text">
               <string>INSTANTANE PILOTE</string>
              </property>
@@ -188,6 +206,9 @@
            </item>
            <item row="6" column="0">
             <widget class="QLineEdit" name="lineEdit_commentaires">
+             <property name="toolTip">
+              <string>Ajouter un commentaire(facultatif)</string>
+             </property>
              <property name="text">
               <string/>
              </property>
@@ -201,6 +222,9 @@
            </item>
            <item row="13" column="0">
             <widget class="QPushButton" name="pushButton_aircraft">
+             <property name="toolTip">
+              <string>Inserer un nouvel aéronef</string>
+             </property>
              <property name="text">
               <string>AIRCRAFT</string>
              </property>
@@ -208,6 +232,9 @@
            </item>
            <item row="3" column="0">
             <widget class="QDateTimeEdit" name="dateTimeEdit">
+             <property name="toolTip">
+              <string>selectionner la date</string>
+             </property>
              <property name="displayFormat">
               <string>yyyy/MM/dd HH:mm</string>
              </property>
@@ -221,6 +248,9 @@
            </item>
            <item row="12" column="0">
             <widget class="QPushButton" name="pushButton_add_pilot">
+             <property name="toolTip">
+              <string>Inserer un nouveau personnel </string>
+             </property>
              <property name="whatsThis">
               <string extracomment="Inserer dans la Base de Donnéee un Nouveua Pilote"/>
              </property>
@@ -231,6 +261,9 @@
            </item>
            <item row="4" column="0">
             <widget class="QDateTimeEdit" name="dateTimeEdit_2">
+             <property name="toolTip">
+              <string>selectionner la date</string>
+             </property>
              <property name="displayFormat">
               <string>yyyy/MM/dd HH:mm</string>
              </property>
@@ -243,13 +276,24 @@
             </widget>
            </item>
            <item row="0" column="0">
-            <widget class="QComboBox" name="comboBox_pilot1"/>
+            <widget class="QComboBox" name="comboBox_pilot1">
+             <property name="toolTip">
+              <string>Selectionner un personnel</string>
+             </property>
+            </widget>
            </item>
            <item row="2" column="0">
-            <widget class="QComboBox" name="comboBox_aircraft"/>
+            <widget class="QComboBox" name="comboBox_aircraft">
+             <property name="toolTip">
+              <string>Selectionner un appareil</string>
+             </property>
+            </widget>
            </item>
            <item row="7" column="0">
             <widget class="QPushButton" name="pushButton_insert">
+             <property name="toolTip">
+              <string>Ajouter dans la base de donées</string>
+             </property>
              <property name="text">
               <string>INSERT</string>
              </property>
@@ -263,6 +307,9 @@
            </item>
            <item row="14" column="0">
             <widget class="QPushButton" name="rmv_btn">
+             <property name="toolTip">
+              <string>Supprimer un personnel</string>
+             </property>
              <property name="text">
               <string>REMOVE</string>
              </property>
@@ -270,6 +317,9 @@
            </item>
            <item row="10" column="0">
             <widget class="QPushButton" name="pushButton_snapshot_mission">
+             <property name="toolTip">
+              <string>Sauvegarder la ligne 1 avec les données mission</string>
+             </property>
              <property name="text">
               <string>INSTANTANE MISSION</string>
              </property>
@@ -296,6 +346,9 @@
            </item>
            <item>
             <widget class="QCheckBox" name="checkBox_pcb">
+             <property name="toolTip">
+              <string>Pilote Commandant de Bord</string>
+             </property>
              <property name="text">
               <string>PCB</string>
              </property>
@@ -303,6 +356,9 @@
            </item>
            <item>
             <widget class="QCheckBox" name="checkBox_pcm">
+             <property name="toolTip">
+              <string>Pilote Chef de Mission</string>
+             </property>
              <property name="text">
               <string>PCM</string>
              </property>
@@ -375,7 +431,7 @@
         <item row="2" column="1">
          <widget class="QLabel" name="label_2">
           <property name="toolTip">
-           <string>update me</string>
+           <string>Heures de vol</string>
           </property>
           <property name="styleSheet">
            <string notr="true">border-color: rgb(179, 179, 179); border-top-color:
@@ -392,7 +448,11 @@
          </widget>
         </item>
         <item row="2" column="2">
-         <widget class="QComboBox" name="comboBox_price_aircraft"/>
+         <widget class="QComboBox" name="comboBox_price_aircraft">
+          <property name="toolTip">
+           <string>Selectionner un aeronef pour metre à jour les heures</string>
+          </property>
+         </widget>
         </item>
         <item row="2" column="3">
          <widget class="QLabel" name="label_price">
@@ -440,6 +500,9 @@
            </item>
            <item>
             <widget class="QPushButton" name="pushButton_pilote_pcb">
+             <property name="toolTip">
+              <string>Affichage du graphique PCB</string>
+             </property>
              <property name="text">
               <string>PILOTES EN PCB</string>
              </property>
@@ -447,6 +510,9 @@
            </item>
            <item>
             <widget class="QPushButton" name="pushButton_pilote_pcm">
+             <property name="toolTip">
+              <string>Graphique pilote en PCM</string>
+             </property>
              <property name="text">
               <string>PILOTES EN PCM</string>
              </property>
@@ -454,6 +520,9 @@
            </item>
            <item>
             <widget class="QPushButton" name="pushButton_type_mission">
+             <property name="toolTip">
+              <string>Graphique type de mission</string>
+             </property>
              <property name="text">
               <string>TYPE DE MISSION</string>
              </property>
@@ -507,13 +576,35 @@
   <tabstop>comboBox_aircraft</tabstop>
   <tabstop>dateTimeEdit</tabstop>
   <tabstop>dateTimeEdit_2</tabstop>
+  <tabstop>comboBox_type_msn</tabstop>
+  <tabstop>comboBox_ss_type_msn</tabstop>
+  <tabstop>lineEdit_commentaires</tabstop>
+  <tabstop>pushButton_insert</tabstop>
+  <tabstop>pushButton_snapshot_template</tabstop>
+  <tabstop>pushButton_snapshot_mission</tabstop>
+  <tabstop>pushButton_termplate_create</tabstop>
+  <tabstop>pushButton_add_pilot</tabstop>
+  <tabstop>pushButton_aircraft</tabstop>
   <tabstop>rmv_btn</tabstop>
+  <tabstop>comboBox_price_aircraft</tabstop>
+  <tabstop>lineEdit_search</tabstop>
+  <tabstop>checkBox_pcb</tabstop>
+  <tabstop>checkBox_pcm</tabstop>
+  <tabstop>dateEdit</tabstop>
   <tabstop>dateEdit_2</tabstop>
+  <tabstop>lineEdit_search_mission</tabstop>
+  <tabstop>tableView_2</tabstop>
   <tabstop>tabWidget</tabstop>
   <tabstop>tableView</tabstop>
-  <tabstop>pushButton_remove</tabstop>
+  <tabstop>pushButton_update</tabstop>
   <tabstop>pushButton_send_mail</tabstop>
+  <tabstop>pushButton_remove</tabstop>
   <tabstop>pushButton_add</tabstop>
+  <tabstop>checkBox_tableau</tabstop>
+  <tabstop>pushButton_pilote_pcb</tabstop>
+  <tabstop>pushButton_pilote_pcm</tabstop>
+  <tabstop>pushButton_type_mission</tabstop>
+  <tabstop>tableView_3</tabstop>
  </tabstops>
  <resources>
   <include location="images.qrc"/>

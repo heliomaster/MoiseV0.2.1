@@ -117,7 +117,6 @@ class MainWindow(QMainWindow, moise_alternatif_widgets.Ui_MainWindow):
             self.db_model2.setHeaderData(count, Qt.Horizontal, item)
         self.db_model2.select()
 
-
         self.tableView_2.setColumnHidden(0, True)
 
         self.tableView_2.horizontalHeader().setStretchLastSection(True)
@@ -127,8 +126,6 @@ class MainWindow(QMainWindow, moise_alternatif_widgets.Ui_MainWindow):
         self.tableView_2.setItemDelegateForColumn(4, self.custom_delegate2)
         self.tableView_2.setItemDelegateForColumn(5, self.custom_delegate2)
 
-
-
         self.dateEdit.setCalendarPopup(True)
         self.dateEdit_2.setCalendarPopup(True)
         self.dateEdit.setDate(QDate.currentDate())
@@ -137,8 +134,6 @@ class MainWindow(QMainWindow, moise_alternatif_widgets.Ui_MainWindow):
         self.dateTimeEdit_2.setDateTime(QDateTime.currentDateTime())
         self.dateTimeEdit.dateTimeChanged.connect(self.dt_changed)
         self.comboBox_price_aircraft.addItems(self.retrieve_aircraft_var())
-
-
 
         ############  PROXY MODEL ###############
         self.proxyModel2 = MySortFilterProxyModel(self)
@@ -152,11 +147,9 @@ class MainWindow(QMainWindow, moise_alternatif_widgets.Ui_MainWindow):
 
         #######################################################
 
-
         self.tableView_2.setModel(self.proxyModel2)
         self.tableView_2.verticalHeader().hide()
         self.tableView_2.setAlternatingRowColors(True)
-
 
         ########sets tableview2 with combobox on rows 1,2,3
         self.tableView_2.setItemDelegate(RelationalDelegate())
@@ -167,8 +160,6 @@ class MainWindow(QMainWindow, moise_alternatif_widgets.Ui_MainWindow):
         self.tableView_2.setModel(self.proxyModelDisableCol)
         self.tableView_2.model().setColumnReadOnly(7, True)
         self.tableView_2.sortByColumn(0, Qt.AscendingOrder)
-
-
 
         ###################################  TAB STAT ###############################################
         con = sqlite3.connect("LmtPilots.db")
@@ -255,8 +246,6 @@ class MainWindow(QMainWindow, moise_alternatif_widgets.Ui_MainWindow):
 
     def afficher_tableau(self):
         self.tableView_3.setModel(self.model_pandas)
-
-
 
     def plot_pcb(self):
         colors = ['yellowgreen', 'gold', 'lightskyblue', 'lightcoral', 'red', 'green', 'blue', 'orange', 'white',
@@ -390,17 +379,14 @@ class MainWindow(QMainWindow, moise_alternatif_widgets.Ui_MainWindow):
         self.combo = dialog.ui.comboBox
         self.btn_box = dialog.ui.buttonBox
 
-
         path = pathlib.Path.cwd()
         templates_list2 = [x for x in os.listdir(path) if x.startswith("template") and x.endswith(".docx")]
         dialog.ui.comboBox.addItems(
             templates_list2)  # templates_list2 used: if problem with combo template revert to template_list1
 
-
         self.combo.activated.connect(self.select_template)
         self.btn_box.accepted.connect(self.create_document)
         self.btn_box.accepted.connect(self.save_the_doc_somewhereelse)
-
 
         dialog.setAttribute(Qt.WA_DeleteOnClose)
         dialog.exec_()
@@ -439,7 +425,6 @@ class MainWindow(QMainWindow, moise_alternatif_widgets.Ui_MainWindow):
             while query.next():
                 rate = float(query.value(0))
 
-
             # if self.comboBox_price_aircraft.currentText() == "F-GTPH":
             #     rate = 193
             # elif self.comboBox_price_aircraft.currentText() == "F-GJQP":
@@ -456,7 +441,6 @@ class MainWindow(QMainWindow, moise_alternatif_widgets.Ui_MainWindow):
             price = round(hours * rate + (rate * minutes) / 60, 2)
             price_with_int = self.calculate_aircraft_price_with_interest() + price
 
-
             self.label_price.setText(str(price) + " EUROS \n " + str(price_with_int) + " EUROS ")
             return price
         except UnboundLocalError as e:
@@ -470,7 +454,7 @@ class MainWindow(QMainWindow, moise_alternatif_widgets.Ui_MainWindow):
         rounded_begin = begin.replace(hour=0, minute=0, second=0, microsecond=0)
         rounded_end = end.replace(hour=0, minute=0, second=0, microsecond=0)
         delta = (rounded_end - rounded_begin).days
-        return delta * 34
+        return delta * 38
 
     def write_csv_pilot(self):
 
@@ -512,8 +496,6 @@ class MainWindow(QMainWindow, moise_alternatif_widgets.Ui_MainWindow):
         finally:
             QMessageBox.information(self.parent(), "SUCCES", f"LA LIGNE {pilots_time_val} A BIEN ETE INSERER")
 
-
-
     def write_csv_mission(self):
 
         vrb_hours = '{} H {} M'.format(*self.proxy_hours_minutes())
@@ -526,8 +508,6 @@ class MainWindow(QMainWindow, moise_alternatif_widgets.Ui_MainWindow):
                 QMessageBox.information(self.parent(), "SUCCES", f"LA LIGNE {mission_time_val} A BIEN ETE INSERER")
         except IOError as e:
             QMessageBox.critical(self.parent(), "ERREUR", f"Erreur de type {e}")
-
-
 
     def create_document(self):
         current_date = time.strftime('%d/%m/%Y', time.localtime())
@@ -551,7 +531,6 @@ class MainWindow(QMainWindow, moise_alternatif_widgets.Ui_MainWindow):
                     w = csv.writer(f, delimiter=',')
                     w.writerow(['DUMMY', '24 H 00 M'])
 
-
         # try:
         clean_row = data.clean_row()
         clean_row_mission = data2.clean_row()
@@ -560,7 +539,6 @@ class MainWindow(QMainWindow, moise_alternatif_widgets.Ui_MainWindow):
 
         # except UnboundLocalError as e:
         #     print(e)
-
 
         displayed_hours = self.label_2.text()
 
@@ -745,7 +723,6 @@ class MainWindow(QMainWindow, moise_alternatif_widgets.Ui_MainWindow):
         resultat = td.days * 24 + td.seconds // 3600, (td.seconds // 60) % 60
         return resultat
 
-
     def get_hours_diff(self):
         '''used by update_record method to enter total column in SQL'''
         query1 = QSqlQuery("SELECT date_time1,date_time2 FROM Pilots_hours")
@@ -761,7 +738,6 @@ class MainWindow(QMainWindow, moise_alternatif_widgets.Ui_MainWindow):
                 print(f'erreur de type {e} : contacter le developeur')
             result.append(str(diff))
         return result
-
 
     @pyqtSlot()
     def on_pushButton_insert_clicked(self):
@@ -795,7 +771,6 @@ class MainWindow(QMainWindow, moise_alternatif_widgets.Ui_MainWindow):
         else:
             return
 
-
     def update_record(self):
         """UPDATES EACH SQL ROW WITH TIME DELTA FROM PREVIOUS 2 COLUMNS"""
 
@@ -806,7 +781,6 @@ class MainWindow(QMainWindow, moise_alternatif_widgets.Ui_MainWindow):
         cur.executemany('UPDATE Pilots_hours SET total=? WHERE id=?', zip(self.get_hours_diff(), rowids))
         conn.commit()
         self.db_model2.select()
-
 
     #############  count days #####################
     def count_days(self):
